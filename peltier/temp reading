@@ -1,0 +1,884 @@
+0 s
+22.42 *C
+cooling effort is: 0.18
+gradient is:-227.29
+2 s
+22.06 *C
+cooling effort is: 0.16
+gradient is:-10.92
+4 s
+21.56 *C
+cooling effort is: 0.14
+gradient is:-15.06
+6 s
+21.30 *C
+cooling effort is: 0.12
+gradient is:-7.78
+8 s
+21.04 *C
+cooling effort is: 0.10
+gradient is:-7.77
+10 s
+20.87 *C
+cooling effort is: 0.08
+gradient is:-5.18
+12 s
+20.76 *C
+cooling effort is: 0.06
+gradient is:-3.11
+14 s
+20.69 *C
+cooling effort is: 0.04
+gradient is:-2.07
+16 s
+20.78 *C
+cooling effort is: 0.06
+gradient is:2.59
+18 s
+20.87 *C
+cooling effort is: 0.08
+gradient is:2.59
+20 s
+20.95 *C
+cooling effort is: 0.10
+gradient is:2.59
+22 s
+21.13 *C
+cooling effort is: 0.12
+gradient is:5.18
+24 s
+21.21 *C
+cooling effort is: 0.14
+gradient is:2.59
+26 s
+21.30 *C
+cooling effort is: 0.16
+gradient is:2.59
+28 s
+21.30 *C
+cooling effort is: 0.18
+gradient is:0.00
+30 s
+21.30 *C
+cooling effort is: 0.20
+gradient is:0.00
+32 s
+21.21 *C
+cooling effort is: 0.18
+gradient is:-2.59
+34 s
+21.09 *C
+cooling effort is: 0.16
+gradient is:-3.63
+36 s
+20.95 *C
+cooling effort is: 0.14
+gradient is:-4.14
+39 s
+20.78 *C
+cooling effort is: 0.12
+gradient is:-5.18
+41 s
+20.68 *C
+cooling effort is: 0.10
+gradient is:-3.11
+43 s
+20.61 *C
+cooling effort is: 0.08
+gradient is:-2.07
+45 s
+20.61 *C
+cooling effort is: 0.10
+gradient is:0.00
+47 s
+20.69 *C
+cooling effort is: 0.12
+gradient is:2.59
+49 s
+20.92 *C
+cooling effort is: 0.14
+gradient is:6.73
+51 s
+20.90 *C
+cooling effort is: 0.14
+gradient is:-0.52
+53 s
+21.02 *C
+cooling effort is: 0.16
+gradient is:3.63
+55 s
+21.09 *C
+cooling effort is: 0.18
+gradient is:2.07
+57 s
+21.13 *C
+cooling effort is: 0.20
+gradient is:1.04
+59 s
+21.13 *C
+cooling effort is: 0.22
+gradient is:0.00
+61 s
+21.06 *C
+cooling effort is: 0.20
+gradient is:-2.07
+63 s
+20.97 *C
+cooling effort is: 0.18
+gradient is:-2.59
+65 s
+20.87 *C
+cooling effort is: 0.16
+gradient is:-3.11
+67 s
+20.78 *C
+cooling effort is: 0.14
+gradient is:-2.59
+69 s
+20.69 *C
+cooling effort is: 0.12
+gradient is:-2.59
+71 s
+20.66 *C
+cooling effort is: 0.12
+gradient is:-1.04
+73 s
+20.69 *C
+cooling effort is: 0.14
+gradient is:1.04
+75 s
+20.80 *C
+cooling effort is: 0.16
+gradient is:3.11
+78 s
+20.94 *C
+cooling effort is: 0.18
+gradient is:4.14
+80 s
+21.04 *C
+cooling effort is: 0.20
+gradient is:3.11
+82 s
+21.13 *C
+cooling effort is: 0.22
+gradient is:2.59
+84 s
+21.19 *C
+cooling effort is: 0.24
+gradient is:2.07
+86 s
+21.18 *C
+cooling effort is: 0.24
+gradient is:-0.52
+88 s
+21.13 *C
+cooling effort is: 0.24
+gradient is:-1.55
+90 s
+21.04 *C
+cooling effort is: 0.22
+gradient is:-2.59
+92 s
+20.95 *C
+cooling effort is: 0.20
+gradient is:-2.59
+94 s
+20.81 *C
+cooling effort is: 0.18
+gradient is:-4.14
+96 s
+20.76 *C
+cooling effort is: 0.18
+gradient is:-1.55
+98 s
+20.71 *C
+cooling effort is: 0.18
+gradient is:-1.55
+100 s
+20.76 *C
+cooling effort is: 0.20
+gradient is:1.55
+102 s
+20.83 *C
+cooling effort is: 0.22
+gradient is:2.07
+104 s
+20.88 *C
+cooling effort is: 0.24
+gradient is:1.55
+106 s
+20.95 *C
+cooling effort is: 0.26
+gradient is:2.07
+108 s
+21.04 *C
+cooling effort is: 0.28
+gradient is:2.59
+110 s
+21.04 *C
+cooling effort is: 0.30
+gradient is:0.00
+112 s
+20.99 *C
+cooling effort is: 0.30
+gradient is:-1.55
+114 s
+20.92 *C
+cooling effort is: 0.28
+gradient is:-2.07
+117 s
+20.88 *C
+cooling effort is: 0.28
+gradient is:-1.04
+119 s
+20.73 *C
+cooling effort is: 0.26
+gradient is:-4.66
+121 s
+20.64 *C
+cooling effort is: 0.24
+gradient is:-2.59
+123 s
+20.61 *C
+cooling effort is: 0.24
+gradient is:-1.04
+125 s
+20.61 *C
+cooling effort is: 0.26
+gradient is:0.00
+127 s
+20.61 *C
+cooling effort is: 0.28
+gradient is:0.00
+129 s
+20.68 *C
+cooling effort is: 0.30
+gradient is:2.07
+131 s
+20.73 *C
+cooling effort is: 0.32
+gradient is:1.55
+133 s
+20.78 *C
+cooling effort is: 0.34
+gradient is:1.55
+135 s
+20.78 *C
+cooling effort is: 0.36
+gradient is:0.00
+137 s
+20.78 *C
+cooling effort is: 0.38
+gradient is:0.00
+139 s
+20.75 *C
+cooling effort is: 0.38
+gradient is:-1.04
+141 s
+20.66 *C
+cooling effort is: 0.36
+gradient is:-2.59
+143 s
+20.52 *C
+cooling effort is: 0.34
+gradient is:-4.14
+145 s
+20.43 *C
+cooling effort is: 0.32
+gradient is:-2.59
+147 s
+20.40 *C
+cooling effort is: 0.32
+gradient is:-1.03
+149 s
+20.35 *C
+cooling effort is: 0.32
+gradient is:-1.55
+151 s
+20.49 *C
+cooling effort is: 0.34
+gradient is:4.14
+153 s
+20.42 *C
+cooling effort is: 0.32
+gradient is:-2.07
+156 s
+20.49 *C
+cooling effort is: 0.34
+gradient is:2.07
+158 s
+20.57 *C
+cooling effort is: 0.36
+gradient is:2.59
+160 s
+20.61 *C
+cooling effort is: 0.38
+gradient is:1.03
+162 s
+20.69 *C
+cooling effort is: 0.40
+gradient is:2.59
+164 s
+20.78 *C
+cooling effort is: 0.42
+gradient is:2.59
+166 s
+20.80 *C
+cooling effort is: 0.44
+gradient is:0.52
+168 s
+20.78 *C
+cooling effort is: 0.44
+gradient is:-0.52
+170 s
+20.71 *C
+cooling effort is: 0.42
+gradient is:-2.07
+172 s
+20.69 *C
+cooling effort is: 0.42
+gradient is:-0.52
+174 s
+20.61 *C
+cooling effort is: 0.40
+gradient is:-2.59
+176 s
+20.57 *C
+cooling effort is: 0.40
+gradient is:-1.03
+178 s
+20.56 *C
+cooling effort is: 0.40
+gradient is:-0.52
+180 s
+20.57 *C
+cooling effort is: 0.42
+gradient is:0.52
+182 s
+20.61 *C
+cooling effort is: 0.44
+gradient is:1.03
+184 s
+20.81 *C
+cooling effort is: 0.46
+gradient is:6.21
+186 s
+20.76 *C
+cooling effort is: 0.46
+gradient is:-1.55
+188 s
+20.80 *C
+cooling effort is: 0.48
+gradient is:1.04
+190 s
+20.81 *C
+cooling effort is: 0.50
+gradient is:0.52
+192 s
+20.83 *C
+cooling effort is: 0.52
+gradient is:0.52
+195 s
+20.83 *C
+cooling effort is: 0.54
+gradient is:0.00
+197 s
+20.85 *C
+cooling effort is: 0.56
+gradient is:0.52
+199 s
+20.78 *C
+cooling effort is: 0.54
+gradient is:-2.07
+201 s
+20.73 *C
+cooling effort is: 0.54
+gradient is:-1.55
+203 s
+20.69 *C
+cooling effort is: 0.54
+gradient is:-1.04
+205 s
+20.61 *C
+cooling effort is: 0.52
+gradient is:-2.59
+207 s
+20.61 *C
+cooling effort is: 0.54
+gradient is:0.00
+209 s
+20.61 *C
+cooling effort is: 0.56
+gradient is:0.00
+211 s
+20.61 *C
+cooling effort is: 0.58
+gradient is:0.00
+213 s
+20.66 *C
+cooling effort is: 0.60
+gradient is:1.55
+215 s
+20.69 *C
+cooling effort is: 0.62
+gradient is:1.04
+217 s
+20.69 *C
+cooling effort is: 0.64
+gradient is:0.00
+219 s
+20.71 *C
+cooling effort is: 0.66
+gradient is:0.52
+221 s
+20.71 *C
+cooling effort is: 0.68
+gradient is:0.00
+223 s
+20.69 *C
+cooling effort is: 0.68
+gradient is:-0.52
+225 s
+20.68 *C
+cooling effort is: 0.68
+gradient is:-0.52
+227 s
+20.61 *C
+cooling effort is: 0.66
+gradient is:-2.07
+229 s
+20.54 *C
+cooling effort is: 0.64
+gradient is:-2.07
+231 s
+20.52 *C
+cooling effort is: 0.64
+gradient is:-0.52
+234 s
+20.52 *C
+cooling effort is: 0.66
+gradient is:0.00
+236 s
+20.59 *C
+cooling effort is: 0.68
+gradient is:2.07
+238 s
+20.64 *C
+cooling effort is: 0.70
+gradient is:1.55
+240 s
+20.69 *C
+cooling effort is: 0.72
+gradient is:1.55
+242 s
+20.78 *C
+cooling effort is: 0.74
+gradient is:2.59
+244 s
+20.85 *C
+cooling effort is: 0.76
+gradient is:2.07
+246 s
+20.87 *C
+cooling effort is: 0.78
+gradient is:0.52
+248 s
+20.88 *C
+cooling effort is: 0.80
+gradient is:0.52
+250 s
+20.92 *C
+cooling effort is: 0.82
+gradient is:1.04
+252 s
+20.90 *C
+cooling effort is: 0.82
+gradient is:-0.52
+254 s
+20.90 *C
+cooling effort is: 0.84
+gradient is:0.00
+256 s
+20.87 *C
+cooling effort is: 0.84
+gradient is:-1.04
+258 s
+20.87 *C
+cooling effort is: 0.86
+gradient is:0.00
+260 s
+20.85 *C
+cooling effort is: 0.86
+gradient is:-0.52
+262 s
+20.81 *C
+cooling effort is: 0.86
+gradient is:-1.04
+264 s
+20.81 *C
+cooling effort is: 0.88
+gradient is:0.00
+266 s
+20.87 *C
+cooling effort is: 0.90
+gradient is:1.55
+268 s
+20.87 *C
+cooling effort is: 0.92
+gradient is:0.00
+270 s
+20.88 *C
+cooling effort is: 0.94
+gradient is:0.52
+273 s
+20.94 *C
+cooling effort is: 0.96
+gradient is:1.55
+275 s
+20.95 *C
+cooling effort is: 0.98
+gradient is:0.52
+277 s
+20.97 *C
+cooling effort is: 1.00
+gradient is:0.52
+279 s
+21.00 *C
+cooling effort is: 1.02
+gradient is:1.04
+281 s
+21.04 *C
+cooling effort is: 1.04
+gradient is:1.04
+283 s
+21.13 *C
+cooling effort is: 1.06
+gradient is:2.59
+285 s
+21.64 *C
+cooling effort is: 1.08
+gradient is:15.56
+287 s
+22.68 *C
+cooling effort is: 1.10
+gradient is:31.21
+289 s
+24.04 *C
+cooling effort is: 1.12
+gradient is:40.79
+291 s
+25.31 *C
+cooling effort is: 1.14
+gradient is:37.94
+293 s
+26.55 *C
+cooling effort is: 1.16
+gradient is:37.21
+295 s
+27.62 *C
+cooling effort is: 1.18
+gradient is:32.19
+297 s
+28.58 *C
+cooling effort is: 1.20
+gradient is:28.70
+299 s
+29.32 *C
+cooling effort is: 1.22
+gradient is:22.39
+301 s
+29.97 *C
+cooling effort is: 1.24
+gradient is:19.26
+303 s
+30.45 *C
+cooling effort is: 1.26
+gradient is:14.39
+305 s
+30.82 *C
+cooling effort is: 1.28
+gradient is:11.13
+307 s
+31.12 *C
+cooling effort is: 1.30
+gradient is:8.94
+309 s
+31.36 *C
+cooling effort is: 1.32
+gradient is:7.29
+312 s
+31.49 *C
+cooling effort is: 1.34
+gradient is:3.93
+314 s
+31.58 *C
+cooling effort is: 1.36
+gradient is:2.81
+316 s
+31.62 *C
+cooling effort is: 1.38
+gradient is:1.13
+318 s
+31.64 *C
+cooling effort is: 1.40
+gradient is:0.56
+320 s
+31.60 *C
+cooling effort is: 1.40
+gradient is:-1.13
+322 s
+31.56 *C
+cooling effort is: 1.40
+gradient is:-1.13
+324 s
+31.47 *C
+cooling effort is: 1.38
+gradient is:-2.81
+326 s
+31.38 *C
+cooling effort is: 1.36
+gradient is:-2.81
+328 s
+31.32 *C
+cooling effort is: 1.36
+gradient is:-1.68
+330 s
+31.28 *C
+cooling effort is: 1.36
+gradient is:-1.12
+332 s
+31.25 *C
+cooling effort is: 1.36
+gradient is:-1.12
+334 s
+31.32 *C
+cooling effort is: 1.38
+gradient is:2.24
+336 s
+31.34 *C
+cooling effort is: 1.40
+gradient is:0.56
+338 s
+31.41 *C
+cooling effort is: 1.42
+gradient is:2.25
+340 s
+31.41 *C
+cooling effort is: 1.44
+gradient is:0.00
+342 s
+31.47 *C
+cooling effort is: 1.46
+gradient is:1.69
+344 s
+31.47 *C
+cooling effort is: 1.48
+gradient is:0.00
+346 s
+31.43 *C
+cooling effort is: 1.48
+gradient is:-1.12
+348 s
+31.38 *C
+cooling effort is: 1.48
+gradient is:-1.69
+351 s
+31.28 *C
+cooling effort is: 1.46
+gradient is:-2.81
+353 s
+31.19 *C
+cooling effort is: 1.44
+gradient is:-2.80
+355 s
+31.10 *C
+cooling effort is: 1.42
+gradient is:-2.80
+357 s
+31.00 *C
+cooling effort is: 1.40
+gradient is:-2.80
+359 s
+31.00 *C
+cooling effort is: 1.42
+gradient is:0.00
+361 s
+31.00 *C
+cooling effort is: 1.44
+gradient is:0.00
+363 s
+31.10 *C
+cooling effort is: 1.46
+gradient is:2.80
+365 s
+31.19 *C
+cooling effort is: 1.48
+gradient is:2.80
+367 s
+31.28 *C
+cooling effort is: 1.50
+gradient is:2.80
+369 s
+31.34 *C
+cooling effort is: 1.52
+gradient is:1.68
+371 s
+31.38 *C
+cooling effort is: 1.54
+gradient is:1.12
+373 s
+31.36 *C
+cooling effort is: 1.54
+gradient is:-0.56
+375 s
+31.30 *C
+cooling effort is: 1.54
+gradient is:-1.68
+377 s
+31.23 *C
+cooling effort is: 1.52
+gradient is:-2.24
+379 s
+31.12 *C
+cooling effort is: 1.50
+gradient is:-3.36
+381 s
+31.10 *C
+cooling effort is: 1.50
+gradient is:-0.56
+383 s
+31.06 *C
+cooling effort is: 1.50
+gradient is:-1.12
+385 s
+31.10 *C
+cooling effort is: 1.52
+gradient is:1.12
+387 s
+31.08 *C
+cooling effort is: 1.52
+gradient is:-0.56
+390 s
+31.17 *C
+cooling effort is: 1.54
+gradient is:2.80
+392 s
+31.19 *C
+cooling effort is: 1.56
+gradient is:0.56
+394 s
+31.23 *C
+cooling effort is: 1.58
+gradient is:1.12
+396 s
+31.23 *C
+cooling effort is: 1.60
+gradient is:0.00
+398 s
+31.26 *C
+cooling effort is: 1.62
+gradient is:1.12
+400 s
+31.28 *C
+cooling effort is: 1.64
+gradient is:0.56
+402 s
+31.19 *C
+cooling effort is: 1.62
+gradient is:-2.80
+404 s
+31.12 *C
+cooling effort is: 1.60
+gradient is:-2.24
+406 s
+31.10 *C
+cooling effort is: 1.60
+gradient is:-0.56
+408 s
+31.00 *C
+cooling effort is: 1.58
+gradient is:-2.80
+410 s
+30.93 *C
+cooling effort is: 1.56
+gradient is:-2.23
+412 s
+30.97 *C
+cooling effort is: 1.58
+gradient is:1.12
+414 s
+31.00 *C
+cooling effort is: 1.60
+gradient is:1.12
+416 s
+31.08 *C
+cooling effort is: 1.62
+gradient is:2.24
+418 s
+31.13 *C
+cooling effort is: 1.64
+gradient is:1.68
+420 s
+31.21 *C
+cooling effort is: 1.66
+gradient is:2.24
+422 s
+31.28 *C
+cooling effort is: 1.68
+gradient is:2.24
+424 s
+31.28 *C
+cooling effort is: 1.70
+gradient is:0.00
+426 s
+31.28 *C
+cooling effort is: 1.72
+gradient is:0.00
+429 s
+31.28 *C
+cooling effort is: 1.74
+gradient is:0.00
+431 s
+31.23 *C
+cooling effort is: 1.74
+gradient is:-1.68
+433 s
+31.17 *C
+cooling effort is: 1.74
+gradient is:-1.68
+435 s
+31.10 *C
+cooling effort is: 1.72
+gradient is:-2.24
+437 s
+31.00 *C
+cooling effort is: 1.70
+gradient is:-2.80
+439 s
+30.98 *C
+cooling effort is: 1.70
+gradient is:-0.56
+441 s
+30.91 *C
+cooling effort is: 1.68
+gradient is:-2.23
+443 s
+30.95 *C
+cooling effort is: 1.70
+gradient is:1.12
+445 s
+31.00 *C
+cooling effort is: 1.72
+gradient is:1.68
+447 s
+31.08 *C
+cooling effort is: 1.74
+gradient is:2.24
+449 s
+31.19 *C
+cooling effort is: 1.76
+gradient is:3.36
+451 s
+31.26 *C
+cooling effort is: 1.78
+gradient is:2.24

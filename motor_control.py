@@ -28,6 +28,7 @@ if arduino_connect is True:
     ser.flush()
 
 
+# ToDO: use thread to control the motor rather than while True
 while True:
     k = readkey()
     if k in move_keys.keys():

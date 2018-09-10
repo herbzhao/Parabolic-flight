@@ -2,6 +2,7 @@ from readchar import readkey
 import serial
 import numpy as np
 
+# we can also use the code without arduino connection for debugging 
 arduino_connect = False
 
 # some parameters
