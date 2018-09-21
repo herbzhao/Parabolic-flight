@@ -1,5 +1,6 @@
 from readchar import readkey
 import serial
+import serial.tools.list_ports
 import numpy as np
 import time
 import threading
@@ -8,12 +9,14 @@ import threading
 class arduino_controller_class():
     def __init__(self, fergboard_connect=False, arduino_connect=False):
         # some parameters
-        self.move_keys = {'w': [0,1,0],
-                    'a': [1,0,0],
-                    's': [0,-1,0],
-                    'd': [-1,0,0],
-                    'q': [0,0,-1],
-                    'e': [0,0,1]}
+        self.move_keys = {
+            'w': [0,1,0],
+            's': [0,-1,0],
+            'a': [1,0,0],
+            'd': [-1,0,0],
+            'q': [0,0,-1],
+            'e': [0,0,1]
+                    }
         self.fergboard_speed = np.array([200, 200, 200])
         self.fergboard_connect = fergboard_connect
         self.arduino_connect = arduino_connect
@@ -26,34 +29,45 @@ class arduino_controller_class():
         # initialisation the arduino connection
         self.ferg_ser = serial.Serial()
         self.ferg_ser.baudrate = 115200
-        self.ferg_ser.timeout = 5
-        self.ferg_ser.port = '/dev/ttyACM0'
+        self.ferg_ser.timeout = 1
+
+        # Find Arduino serial port first
+        available_ports = list(serial.tools.list_ports.comports())
+        for port in available_ports:
+            print(port[0])
+            print(port[1])
+            if 'Micro' in port[1]:
+                arduino_port = port[0]
+                print('Fergus port: '+ arduino_port)
+
+        self.ferg_ser.port = arduino_port
         self.ferg_ser.open()
-        self.ferg_ser.flush()
-        # change speed
-        self.ferg_ser.write('STV 1 {} {} {}'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2]))
-        self.ferg_ser.readline()
-        
+
+
     def initialise_arduino_connection(self):
         # initialisation the arduino connection
         self.arduino_ser = serial.Serial()
         self.arduino_ser.baudrate = 115200
-        self.arduino_ser.timeout = 5
+        self.arduino_ser.timeout = 1
         # TODO: change this to the arduino port
         self.arduino_ser.port = '/dev/ttyACM0'
         self.arduino_ser.open()
         self.arduino_ser.flush()
 
     def key_input(self):
-        # initialise some parameters
-        while True:
+        # change speed
+        self.ferg_ser.write('STV 1 {} {} {}'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2]).encode())
+        print(self.ferg_ser.readline())
 
+        while True:
             # maximum 1 command per 0.5 sec  
             time.sleep(0.5)
             ''' constantly reading the serial output from Fergboard '''
             if self.fergboard_connect is True:
-                self.ferg_ser.readline()
-
+                if self.ferg_ser.in_waiting:
+                    print(self.ferg_ser.readline())
+            
+            print('reading keys')
             # read keyboard input (from SSH or from Raspberry Pi)
             k = readkey()
 
@@ -104,13 +118,14 @@ class arduino_controller_class():
         while True:
             #  1 reading per 0.5 sec  -- need to synchronise with arduino output
             time.sleep(0.5)
-            print('Temperature: ')
+            print('Temperature:  \n\r')
             if self.arduino_connect is True:
                 print(self.arduino_ser.readline())
 
 if __name__ == "__main__":
     # now threading0 runs regardless of user input
-    arduino_controller = arduino_controller_class(False)
+    arduino_controller = arduino_controller_class(fergboard_connect=True, arduino_connect=False)
+
     # the read temperature has to be the first one!
     threading0 = threading.Thread(target=arduino_controller.read_temperature)
     threading0.daemon = True

@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 import threading
-from readchar import readkey
+from readchar import readkey, get_key
 
 
 def read_keys():

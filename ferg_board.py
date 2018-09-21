@@ -62,7 +62,7 @@ if __name__ == "__main__":
     while True:
         time.sleep(0.2)
         pressed_key = readkey()
-        #ferg_board_key_input(arduino_connect=False, pressed_key = pressed_key)
+        ferg_board_key_input(arduino_connect=True, pressed_key = pressed_key)
         print('next')
         if pressed_key == 'x':
             break
