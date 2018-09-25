@@ -61,7 +61,7 @@ class arduino_controller_class():
 
         while True:
             # maximum 1 command per 0.5 sec  
-            time.sleep(0.5)
+            # time.sleep(0.1)
             ''' constantly reading the serial output from Fergboard '''
             if self.fergboard_connect is True:
                 if self.ferg_ser.in_waiting:

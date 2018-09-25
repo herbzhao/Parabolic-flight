@@ -1,0 +1,1 @@
+b'Command Not Recognised\n'b'Command Not Recognised\n'b'Done Moving in 12.000037 seconds\n'b'1000 500 0\r\n'b'1000 500 0\r\n'
