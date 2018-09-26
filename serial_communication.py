@@ -13,7 +13,6 @@ class serial_controller_class():
         self.starting_time = time.time()
         self.serial_output = ''
         self.starting_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-        os.mkdir("timelapse/{}".format(self.starting_time))
 
     def time_logger(self):
         self.time_elapsed = '{:.1f}'.format(time.time() - self.starting_time)
@@ -90,7 +89,7 @@ class serial_controller_class():
             if self.ser.in_waiting:
                 self.serial_output = self.ser.readline().decode()
 
-    def serial_read_logging(self):
+    def serial_read_logging(self, folder_name=''):
         ''' read the serial output and log in a file for further analysis ''' 
         while True:
         # only when serial is available to read
@@ -98,19 +97,24 @@ class serial_controller_class():
             if self.ser.in_waiting:
                 self.serial_output = self.ser.readline().decode()
                 print(self.serial_output)
-                
-                log_file_location = "timelapse/{}/temp_log.txt".format(self.starting_time)
+                # if not specified the folder name, use the starting time for the folder name
+                if folder_name == '':
+                    folder_name = self.starting_time
+                # create the folder for the first time.
+                if not os.path.exists("timelapse/{}".format(folder_name)):
+                    os.mkdir("timelapse/{}".format(folder_name))
+                log_file_location = "timelapse/{}/temp_log.txt".format(folder_name)
                 with open(log_file_location, 'a+') as log_file:
                     log_file.writelines(self.serial_output)
 
     
-    def serial_read_threading(self, option='quiet'):
+    def serial_read_threading(self, option='quiet', folder_name=''):
         ''' used to start threading for '''
         if option == 'quiet':
             # now threading1 runs regardless of user input
             self.threading_ser_read = threading.Thread(target=self.serial_read_quiet)
         elif option == 'logging':
-            self.threading_ser_read = threading.Thread(target=self.serial_read_logging)
+            self.threading_ser_read = threading.Thread(target=self.serial_read_logging, args=[folder_name])
         else:
             self.threading_ser_read = threading.Thread(target=self.serial_read)
 
