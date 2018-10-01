@@ -13,9 +13,9 @@ PID myPID(&PID_input, &PID_output, &PID_setpoint, Kp, Ki, Kd, REVERSE);
 
 // LEDs
 #include <Adafruit_NeoPixel.h>
-#define Neopixel_PIN 6
+#define LED_PIN 6
 #define num_LEDs 12
-Adafruit_NeoPixel LEDs = Adafruit_NeoPixel(num_LEDs, Neopixel_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel LEDs = Adafruit_NeoPixel(num_LEDs, LED_PIN, NEO_GRB + NEO_KHZ800);
 // starting LED colour
 int r=0, g=0, b=0;
 
@@ -46,14 +46,14 @@ float temperature;
 #define delay_time 0.2
 
 // Average the temperature measurement to ensure a stable temperature control
-#define number_of_temp_measurements 5
+#define number_of_temp_measurements 10
 int index_i = 1;
 float temperature_sum;
 float temperature_ave;
 
 // final goal of temperature
-#define PID_starting_setpoint 19
-#define PID_final_setpoint 18.6
+#define PID_starting_setpoint 19.5
+#define PID_final_setpoint 10
 // this is the step that PID setpoint change each time 
 // (smaller = longer = less overshoot)
 #define PID_setpoint_change_step 0.2
@@ -170,24 +170,23 @@ float read_temperature(){
 
 // move the temperature down slowly to ensure a smooth curve?
 void adjust_PID_setpoint() {
-  Serial.println("comparing the temp_ave and PID_setpoint");
+  // Serial.println("comparing the temp_ave and PID_setpoint");
   // when temperature stablise then reduce setpoint again
   if (abs(temperature_ave-PID_setpoint)< PID_fluctuation_range){
     // only move the setpoint if it is not the final_setpoint
     // It is not easy to compare float with == or !=
     // we use larger or smaller than our jumping step to test whether they are equal
     // convert float into int and then compare
-    if (abs(PID_setpoint - PID_final_setpoint) > 0.1){
+    if (abs(PID_setpoint - PID_final_setpoint) > float(PID_setpoint_change_step)/2){
       // decrease the setpoint by tiny bit each time
       PID_setpoint = PID_setpoint- PID_setpoint_change_step;
-      Serial.println("moving PID_setpoint by one step");
-      Serial.println("current PID_setpoint and PID_final_setpoint are");
-      Serial.print(PID_setpoint);
-      Serial.println(PID_final_setpoint);
-      
+      // Serial.println("moving PID_setpoint by one step");
+      // Serial.println("current PID_setpoint and PID_final_setpoint are");
+      // Serial.print(PID_setpoint);
+      // Serial.println(PID_final_setpoint);
     }
     else{
-      Serial.println("Reached the designated temperature");
+      // Serial.println("Reached the designated temperature");
     }
   }
   //Serial.print("Current PID_setpoint is:");
