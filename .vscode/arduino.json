@@ -1,5 +1,5 @@
 {
     "port": "COM5",
     "board": "arduino:avr:uno",
-    "sketch": "arduino\\pid_autotune.ino"
+    "sketch": "arduino\\peltier_v4\\peltier_v4.ino"
 }

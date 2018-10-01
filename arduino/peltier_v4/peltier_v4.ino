@@ -35,7 +35,7 @@ int r=0, g=0, b=0;
 #define number_of_analogue_measurements 10
 // set some variables for thermistor
 uint16_t analogue_readings[number_of_analogue_measurements];
-uint8_t i;
+uint8_t index_k;
 float average_analogue_reading;
 
 
@@ -46,14 +46,14 @@ float temperature;
 #define delay_time 0.2
 
 // Average the temperature measurement to ensure a stable temperature control
-#define number_of_temp_measurements 20
-int j = 1;
-float temperatures[number_of_temp_measurements];
-float average_temperature;
+#define number_of_temp_measurements 5
+int index_i = 1;
+float temperature_sum;
+float temperature_ave;
 
 // final goal of temperature
 #define PID_starting_setpoint 19
-#define PID_final_setpoint 10
+#define PID_final_setpoint 18.6
 // this is the step that PID setpoint change each time 
 // (smaller = longer = less overshoot)
 #define PID_setpoint_change_step 0.2
@@ -82,7 +82,6 @@ void setup(void) {
 
 void loop(void) {
   PID_input = read_temperature();
-  temperatures[j] =  PID_input;
   
   // check if the average temperature is stable within range
   // then adjust PID_setpoint with small step to prevent overshoot
@@ -106,17 +105,41 @@ void loop(void) {
 }
 
 
+
+void measure_average_temp_and_adjust_PID_setpoint(){
+  if ( index_i < number_of_temp_measurements){
+    temperature_sum+= PID_input;
+    index_i += 1;
+    // Serial.println("sum temperature is:");
+    // Serial.println(temperature_sum);
+  }
+  else{
+    temperature_sum+= PID_input;
+    temperature_ave = temperature_sum/number_of_temp_measurements;
+    // Serial.print("temperature average is :");
+    // Serial.println(temperature_ave);
+    adjust_PID_setpoint();
+    // Serial.println("averaging the temperature and adjust PID setpoint");
+    // reset the index and temperature_sum
+    index_i = 1;
+    temperature_sum = 0;
+  }
+}
+
+
+
+
 float read_temperature(){
   // take N analogue_readings in a row, with a slight delay
-  for (i=0; i< number_of_analogue_measurements; i++) {
-    analogue_readings[i] = analogRead(thermistor_pin);
+  for (index_k=0; index_k< number_of_analogue_measurements; index_k++) {
+    analogue_readings[index_k] = analogRead(thermistor_pin);
     delay(10);
   }
  
   // average all the analogue_readings out
   average_analogue_reading = 0;
-  for (i=0; i< number_of_analogue_measurements; i++){
-    average_analogue_reading += analogue_readings[i];
+  for (index_k=0; index_k< number_of_analogue_measurements; index_k++){
+    average_analogue_reading += analogue_readings[index_k];
   }
   average_analogue_reading /= number_of_analogue_measurements;
   
@@ -147,38 +170,28 @@ float read_temperature(){
 
 // move the temperature down slowly to ensure a smooth curve?
 void adjust_PID_setpoint() {
+  Serial.println("comparing the temp_ave and PID_setpoint");
   // when temperature stablise then reduce setpoint again
-  if (abs(average_temperature-PID_setpoint)< PID_fluctuation_range){
+  if (abs(temperature_ave-PID_setpoint)< PID_fluctuation_range){
     // only move the setpoint if it is not the final_setpoint
-    // When comparing float, tiny difference that generates somewhere will cause problem
+    // It is not easy to compare float with == or !=
+    // we use larger or smaller than our jumping step to test whether they are equal
     // convert float into int and then compare
-    if (int(PID_setpoint*100) != int(PID_final_setpoint*100)){
+    if (abs(PID_setpoint - PID_final_setpoint) > 0.1){
       // decrease the setpoint by tiny bit each time
-      PID_setpoint -= PID_setpoint_change_step;
+      PID_setpoint = PID_setpoint- PID_setpoint_change_step;
+      Serial.println("moving PID_setpoint by one step");
+      Serial.println("current PID_setpoint and PID_final_setpoint are");
+      Serial.print(PID_setpoint);
+      Serial.println(PID_final_setpoint);
+      
     }
     else{
-      //Serial.println("Reached the designated temperature");
+      Serial.println("Reached the designated temperature");
     }
   }
-}
-
-
-void measure_average_temp_and_adjust_PID_setpoint(){
-    // measure the average temperature
-  if (j < number_of_temp_measurements){ 
-    j +=1;
-  }
-  else{
-    for (j=1; j<=number_of_temp_measurements; j++){
-      average_temperature += temperatures[j];
-    }
-    average_temperature = float(average_temperature)/float(number_of_temp_measurements);
-    // check whether to change PID values if the temperature is stable
-    adjust_PID_setpoint();
-    // reset everything
-    j = 1;
-    average_temperature = 0;
-  }
+  //Serial.print("Current PID_setpoint is:");
+  //Serial.println(PID_setpoint);
 }
 
 

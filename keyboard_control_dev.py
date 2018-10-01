@@ -35,8 +35,8 @@ class arduino_controller_class():
     def initialise_arduino_connection(self):
         self.arduino_ser_contoller = serial_controller_class()
         self.arduino_ser_contoller.serial_connect(port_names=['SERIAL'], baudrate=9600)
-        # change the folder name here
-        self.arduino_ser_contoller.serial_read_threading(option='logging', folder_name='PID_steps')
+        # Change: the folder name here
+        self.arduino_ser_contoller.serial_read_threading(option='logging', folder_name='PID_steps_2')
 
 
     def key_input(self):

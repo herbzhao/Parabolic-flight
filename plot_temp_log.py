@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Change here
-folder_name = 'timelapse/PID_steps/'
-file_name = 'PID_steps'
+# Change: here the folder and file name
+folder_name = 'timelapse/PID_steps_2/'
+file_name = 'PID_steps_2'
 
 with open(folder_name+'temp_log.txt', 'r+') as temp_log_file:
     temp_log_content = temp_log_file.read()
