@@ -36,14 +36,14 @@ class arduino_controller_class():
         self.arduino_ser_contoller = serial_controller_class()
         self.arduino_ser_contoller.serial_connect(port_names=['SERIAL'], baudrate=9600)
         # change the folder name here
-        self.arduino_ser_contoller.serial_read_threading(option='logging', folder_name='CE0.8')
+        self.arduino_ser_contoller.serial_read_threading(option='logging', folder_name='PID_steps')
 
 
     def key_input(self):
         # initialise fergboard speed
         if self.fergboard_connect is True:
-            self.ferg_ser_contoller.parsing_command_fergboard('set_speed ({}, {}, {})'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2]))
-            self.ferg_ser_contoller.serial_write()
+            serial_command = 'set_speed ({}, {}, {})'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2])
+            self.ferg_ser_contoller.serial_write(serial_command, parser='fergboard')
             print('reading keys')
 
         while True:
@@ -52,20 +52,19 @@ class arduino_controller_class():
 
             if k in self.move_keys.keys():
                 ''' Motor movement'''
+                serial_command = 'jog({},{},{})'.format(self.move_keys[k][0], self.move_keys[k][1], self.move_keys[k][2])
                 if self.fergboard_connect is True:
-                    self.ferg_ser_contoller.parsing_command_fergboard('jog({},{},{})'.format(self.move_keys[k][0], self.move_keys[k][1], self.move_keys[k][2]))
-                    self.ferg_ser_contoller.serial_write()
-
+                    self.ferg_ser_contoller.serial_write(serial_command, parser='fergboard')
                     # wait for the movement to finish
                     while True:
                         if 'FIN' in self.ferg_ser_contoller.serial_output:
+                            # as this will no longer update, assign a new empty value 
+                            # TODO: is this necessary actually???
                             self.ferg_ser_contoller.serial_output = ''
                             break
                         time.sleep(0.01)
-                        
-                else: 
-                    print('jog({},{},{})'.format(self.move_keys[k][0], self.move_keys[k][1], self.move_keys[k][2]))
-
+                elif self.fergboard_connect is False:
+                    print(serial_command)
 
             elif k in (']','['): 
                 ''' Motor speed control'''
@@ -81,12 +80,13 @@ class arduino_controller_class():
                 # the speed has to be integer
                 self.fergboard_speed = self.fergboard_speed.astype('int')
                 print('speed: {}'.format(self.fergboard_speed))
+                serial_command = 'set_speed ({}, {}, {})'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2])
+
                 # send command to adjust speed
                 if self.fergboard_connect is True:
-                    self.ferg_ser_contoller.parsing_command_fergboard('set_speed ({}, {}, {})'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2]))
-                    self.ferg_ser_contoller.serial_write()
-                else: 
-                    print('set_speed ({}, {}, {})'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2]))
+                    self.ferg_ser_contoller.serial_write(serial_command, parser='fergboard')
+                elif self.fergboard_connect is False:
+                    print(serial_command)
 
             # arduino connection for temperature control
             elif k in ['v', 'b', 'n', 'm']:
@@ -94,6 +94,7 @@ class arduino_controller_class():
                 if k == 'v':
                     print('start cooling')
                     if self.arduino_connect is True:
+                        #self.arduino_ser_contoller.serial_write(serial_command, parser='parabolic_flight')
                         pass
                 if k == 'b':
                     print('stop cooling')
