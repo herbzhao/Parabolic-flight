@@ -62,7 +62,7 @@ class arduino_controller_class():
                             # TODO: is this necessary actually???
                             self.ferg_ser_contoller.serial_output = ''
                             break
-                        time.sleep(0)
+                        time.sleep(0.1)
                 elif self.fergboard_connect is False:
                     print(serial_command)
 
