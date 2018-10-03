@@ -88,6 +88,7 @@ class serial_controller_class():
 
     def serial_read(self, option='quiet', folder_name=''):
         while True:
+            time.sleep(0)
         # only when serial is available to read
         # if ser.in_waiting:
             if self.ser.in_waiting:
@@ -107,6 +108,8 @@ class serial_controller_class():
                         log_file.writelines(self.serial_output)
                 else:
                     print(self.serial_output)
+
+                
 
     def serial_read_threading(self, option='quiet', folder_name=''):
         ''' used to start threading for reading the serial'''

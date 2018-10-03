@@ -11,12 +11,12 @@ class arduino_controller_class():
     def __init__(self, fergboard_connect=False, arduino_connect=False):
         # some parameters
         self.move_keys = {
-            'w': [0,1,0],
-            's': [0,-1,0],
-            'a': [1,0,0],
-            'd': [-1,0,0],
-            'q': [0,0,-1],
-            'e': [0,0,1]
+            'w': [0,-1,0],
+            's': [0,1,0],
+            'a': [-1,0,0],
+            'd': [1,0,0],
+            'q': [0,0,1],
+            'e': [0,0,-1]
                     }
         self.fergboard_speed = np.array([200, 200, 200])
         self.fergboard_connect = fergboard_connect
@@ -36,7 +36,7 @@ class arduino_controller_class():
         self.arduino_ser_contoller = serial_controller_class()
         self.arduino_ser_contoller.serial_connect(port_names=['SERIAL'], baudrate=9600)
         # Change: the folder name here
-        self.arduino_ser_contoller.serial_read_threading(option='logging', folder_name='PID_steps_2')
+        self.arduino_ser_contoller.serial_read_threading(option='logging', folder_name='heatmass_PID')
 
 
     def key_input(self):
@@ -62,7 +62,7 @@ class arduino_controller_class():
                             # TODO: is this necessary actually???
                             self.ferg_ser_contoller.serial_output = ''
                             break
-                        time.sleep(0.01)
+                        time.sleep(0)
                 elif self.fergboard_connect is False:
                     print(serial_command)
 
@@ -89,26 +89,19 @@ class arduino_controller_class():
                     print(serial_command)
 
             # arduino connection for temperature control
-            elif k in ['v', 'b', 'n', 'm']:
+            elif k in ['v', 'b']:
                 ''' peltier controlling'''
                 if k == 'v':
                     print('start cooling')
+                    serial_command = 'cool'
                     if self.arduino_connect is True:
-                        #self.arduino_ser_contoller.serial_write(serial_command, parser='parabolic_flight')
+                        self.arduino_ser_contoller.serial_write(serial_command, parser='parabolic_flight')
                         pass
                 if k == 'b':
-                    print('stop cooling')
+                    print('start heating')
+                    serial_command = 'heat'
                     if self.arduino_connect is True:
-                        pass
-                if k == 'n':
-                    print('cooling effort increase')
-                    if self.arduino_connect is True:
-                        pass
-                elif k == 'm':
-                    print('cooling effort decrease')
-                    if self.arduino_connect is True:
-                        pass
-
+                        self.arduino_ser_contoller.serial_write(serial_command, parser='parabolic_flight')
             elif k in ['x']:
                 print('Exiting...')
                 if self.fergboard_connect is True:
@@ -120,7 +113,7 @@ class arduino_controller_class():
 
 if __name__ == "__main__":
     # now threading0 runs regardless of user input
-    arduino_controller = arduino_controller_class(fergboard_connect=False, arduino_connect=True)
+    arduino_controller = arduino_controller_class(fergboard_connect=True, arduino_connect=False)
     threading_keyinput = threading.Thread(target=arduino_controller.key_input())
     threading_keyinput.daemon = True
     threading_keyinput.start()

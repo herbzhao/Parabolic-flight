@@ -17,7 +17,7 @@ PID myPID(&PID_input, &PID_output, &PID_setpoint, Kp, Ki, Kd, REVERSE);
 #define num_LEDs 12
 Adafruit_NeoPixel LEDs = Adafruit_NeoPixel(num_LEDs, LED_PIN, NEO_GRB + NEO_KHZ800);
 // starting LED colour
-int r=0, g=0, b=0;
+int r=255, g=255, b=255;
 
 // Thermistor
 // which analog pin to connect
@@ -25,11 +25,11 @@ int r=0, g=0, b=0;
 // temp. for nominal resistance (almost always 25 C)
 #define temperature_norminal 25   
 // resistance at 25 degrees C
-#define thermistor_norminal_resistance 100000   
+#define thermistor_norminal_resistance 10000   
 // The beta coefficient of the thermistor (usually 3000-4000)
-#define B_coefficient 3950
+#define B_coefficient 3435
 // the value of the serial resistor
-#define reference_resistor 100000    
+#define reference_resistor 10000    
 // how many analogue_readings to take and average, more takes longer
 // but is more 'smooth'
 #define number_of_analogue_measurements 10
@@ -52,8 +52,12 @@ float temperature_sum;
 float temperature_ave;
 
 // final goal of temperature
-#define PID_starting_setpoint 19.5
-#define PID_final_setpoint 10
+#define PID_default_starting_setpoint 23
+#define PID_default_final_setpoint 18
+#define phase_change_point 21
+float PID_final_setpoint;
+// starting the arduino with cooling or not?
+bool cooling = false;
 // this is the step that PID setpoint change each time 
 // (smaller = longer = less overshoot)
 #define PID_setpoint_change_step 0.2
@@ -68,7 +72,8 @@ void setup(void) {
   Serial.setTimeout(50);
   
   //initialize the variables we're linked to
-  PID_setpoint = PID_starting_setpoint;
+  PID_setpoint = PID_default_starting_setpoint;
+  PID_final_setpoint = PID_default_final_setpoint;
   myPID.SetOutputLimits(0, 255);
 
   //turn the PID on
@@ -85,13 +90,19 @@ void loop(void) {
   
   // check if the average temperature is stable within range
   // then adjust PID_setpoint with small step to prevent overshoot
-  measure_average_temp_and_adjust_PID_setpoint();
-
-// TODO: a way to control cooling rate? C/min
-
-  // PID control the peltier cooling effort
-  myPID.Compute();
-  analogWrite(peltier_pin, PID_output);
+  if (cooling == true){
+    measure_average_temp_and_adjust_PID_setpoint();
+    
+    // TODO: a way to control cooling rate? C/min
+    
+    // PID control the peltier cooling effort
+    myPID.Compute();
+    analogWrite(peltier_pin, PID_output);
+  }
+  else if (cooling == false){
+    // if not cooling, send no current to peltier
+    analogWrite(peltier_pin, 0);
+  }
 
   // To read serial input
   if (Serial.available()) 
@@ -203,6 +214,37 @@ void serial_condition(String serial_input){
   }
   else if (serial_input == "-66" or serial_input == "led_off"){
     LED_colour(0,0,0);
+  }
+  else if (serial_input == "stop" or serial_input == "heat"){
+    Serial.println("stop cooling");
+    cooling = false;
+  }
+  else if (serial_input == "restart" or serial_input == "cool"){
+    Serial.println("start the cooling procedure from the beginning");
+    PID_setpoint = PID_default_starting_setpoint;
+    PID_final_setpoint = PID_default_final_setpoint;
+    cooling = true;
+  }
+  else if (serial_input == "hold"){
+    Serial.println("hold at current temperature");
+    cooling = true;
+    PID_final_setpoint = temperature;
+    PID_setpoint = PID_final_setpoint;
+  }
+  else if (serial_input == "prepare"){ 
+    Serial.println("cool down the droplets right before the shape changing");
+    cooling = true;
+    PID_final_setpoint = phase_change_point;
+    // if it is already too cold, heat up to the point
+    if (PID_setpoint < PID_final_setpoint){
+      PID_setpoint = PID_final_setpoint;
+    }
+  }
+  else if (serial_input == "continue"){
+    Serial.println("start the cooling procedure from the current temperature");
+    // dont change the current setpoint, but change the final_setpoint
+    PID_final_setpoint = PID_default_final_setpoint;
+    cooling = true;
   }
 }
 

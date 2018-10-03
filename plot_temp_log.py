@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Change: here the folder and file name
-folder_name = 'timelapse/PID_steps_2/'
-file_name = 'PID_steps_2'
+folder_name = 'timelapse/heatmass_PID/'
+file_name = 'heatmass_PID'
 
 with open(folder_name+'temp_log.txt', 'r+') as temp_log_file:
     temp_log_content = temp_log_file.read()
