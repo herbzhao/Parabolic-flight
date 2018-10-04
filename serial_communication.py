@@ -28,7 +28,6 @@ class serial_controller_class():
                     serial_port = port[0]
                     print('Serial port: '+ serial_port)
 
-
         self.ser = serial.Serial()
         self.ser.port = serial_port
         self.ser.baudrate = baudrate
@@ -43,6 +42,8 @@ class serial_controller_class():
             self.serial_command = self.parsing_command_waterscope(serial_command)
         elif parser == 'fergboard' or parser == 'ferg':
             self.serial_command = self.parsing_command_fergboard(serial_command)
+        elif parser == 'parabolic_flight' or parser == 'parabolic':
+            self.serial_command = self.parsing_command_parabolic_flight(serial_command)
         else:
             self.serial_command = serial_command
 
@@ -83,43 +84,53 @@ class serial_controller_class():
 
     def parsing_command_parabolic_flight(self, serial_command):
         ''' parsing the command from interface for parabolic flight arduino'''
-
+        serial_command = serial_command.replace(' ','').replace('(','').replace(')','')
         return serial_command
 
-    def serial_read(self, option='quiet', folder_name=''):
+    def serial_read(self, options=['quiet']):
+        self.stop_threading = False
         while True:
-            time.sleep(0)
-        # only when serial is available to read
-        # if ser.in_waiting:
-            if self.ser.in_waiting:
-                self.serial_output = self.ser.readline().decode()
-                if option == 'quiet':
-                    pass
-                elif option == 'logging':
-                    print(self.serial_output)
-                    # if not specified the folder name, use the starting time for the folder name
-                    if folder_name == '':
-                        folder_name = self.starting_time
-                    # create the folder for the first time.
-                    if not os.path.exists("timelapse/{}".format(folder_name)):
-                        os.mkdir("timelapse/{}".format(folder_name))
-                    log_file_location = "timelapse/{}/temp_log.txt".format(folder_name)
-                    with open(log_file_location, 'a+') as log_file:
-                        log_file.writelines(self.serial_output)
-                else:
-                    print(self.serial_output)
+            # incorporate a flag that stop the thread 
+            if self.stop_threading is True:
+                break
+            else:
+                time.sleep(0)
+            # only when serial is available to read
+            # if ser.in_waiting:
+                if self.ser.in_waiting:
+                    self.serial_output = self.ser.readline().decode()
+                    if options[0] == 'quiet':
+                        pass
+                    elif options[0] == 'logging':
+                        print(self.serial_output)
+                        # NOTE: the options[1] is the folder name
+                        # if not specified the folder name, use the starting time for the folder name
+                        if len(options) == 1:
+                            options.append(self.starting_time)
+                        # create the folder for the first time.
+                        if not os.path.exists("timelapse/{}".format(options[1])):
+                            os.mkdir("timelapse/{}".format(options[1]))
+                        log_file_location = "timelapse/{}/temp_log.txt".format(options[1])
+                        with open(log_file_location, 'a+') as log_file:
+                            log_file.writelines(self.serial_output)
+                    else:
+                        print(self.serial_output)
+
 
                 
 
-    def serial_read_threading(self, option='quiet', folder_name=''):
+    def serial_read_threading(self, options=['quiet']):
         ''' used to start threading for reading the serial'''
         # now threading1 runs regardless of user input
-        self.threading_ser_read = threading.Thread(target=self.serial_read, args=[option, folder_name])
+        self.threading_ser_read = threading.Thread(target=self.serial_read, args=[options])
         self.threading_ser_read.daemon = True
         self.threading_ser_read.start()
         time.sleep(2)
 
     def close(self):
+        # TODO: add a way to shut the thread, possibly by passing a flag to each loop
+        self.stop_threading = True
+        time.sleep(0.2)
         self.ser.close()
 
 #############################################
@@ -128,7 +139,7 @@ if __name__ == '__main__':
     serial_controller = serial_controller_class()
     serial_controller.serial_connect(port_names=['SERIAL'], baudrate=9600)
     #serial_controller.serial_connect(port_names=['Micro'], baudrate=115200)
-    serial_controller.serial_read_threading(option='logging')
+    serial_controller.serial_read_threading(options='logging')
 
     # accept user input
     while True:
