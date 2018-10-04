@@ -51,6 +51,23 @@ class serial_controller_class():
         print(self.serial_command)
         self.ser.write('{} \n\r'.format(str(self.serial_command)).encode())
 
+        # incorporate a delay for jogging
+        if parser == 'fergboard' or parser == 'ferg' and 'JOG' in self.serial_command:
+            time.sleep(self.ferg_delay)
+
+
+        # debug: how to know the motor has finished moving?
+        # if parser == 'fergboard' or parser == 'ferg':
+        #     # wait for the movement to finish
+        #     while True:
+        #         print(self.serial_output)
+        #         if 'FIN' in self.serial_output:
+        #             # as this will no longer update, assign a new empty value 
+        #             self.serial_output = ''
+        #             break
+        #         time.sleep(0.5)
+
+
     def parsing_command_waterscope(self, serial_command):
         ''' parsing the command from interface for WaterScope water testing kit (Sammy code)'''
         # move(distance,speed)
@@ -80,7 +97,7 @@ class serial_controller_class():
         # move(x, y, z)
         if 'move' in serial_command:
             serial_command = serial_command.replace('move', 'MOV')
-            
+
         # set_speed(increase), set_speed(decrease)
         elif 'set_speed' in serial_command:
             if 'increase' in serial_command:
@@ -98,6 +115,8 @@ class serial_controller_class():
         # jog(x,y,z)
         elif 'jog' in serial_command:
             serial_command = serial_command.replace('jog', 'JOG') 
+            # set a delay that is dependent on speed
+            self.ferg_delay = 50/self.fergboard_speed[0]
 
         serial_command = serial_command.replace('(',' 1 ').replace(')','').replace(",", " ")
         return serial_command

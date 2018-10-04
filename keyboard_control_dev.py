@@ -59,14 +59,7 @@ class arduino_controller_class():
                 serial_command = 'jog({},{},{})'.format(self.move_keys[k][0], self.move_keys[k][1], self.move_keys[k][2])
                 if self.fergboard_connect is True:
                     self.serial_controllers['ferg'].serial_write(serial_command, parser='ferg')
-                    # wait for the movement to finish
-                    while True:
-                        if 'FIN' in self.serial_controllers['ferg'].serial_output:
-                            # as this will no longer update, assign a new empty value 
-                            # TODO: is this necessary actually???
-                            self.serial_controllers['ferg'].serial_output = ''
-                            break
-                        time.sleep(0.1)
+
                 elif self.fergboard_connect is False:
                     print(serial_command)
 
@@ -94,7 +87,7 @@ class arduino_controller_class():
                     serial_command = 'heat'
                     if self.arduino_connect is True:
                         self.serial_controllers['parabolic'].serial_write(serial_command, parser='parabolic')
-                        
+
             elif k in ['x']:
                 print('Exiting...')
                 if self.fergboard_connect is True:
