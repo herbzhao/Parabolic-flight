@@ -5,6 +5,7 @@ import serial.tools.list_ports
 import serial
 import time
 import datetime
+import numpy as np
 import os
 
 
@@ -69,12 +70,31 @@ class serial_controller_class():
 
     def parsing_command_fergboard(self, serial_command):
         ''' parsing the command from interface for fergboard (fergus)'''
+        try: 
+            self.fergboard_speed 
+        except AttributeError:
+            self.fergboard_speed = np.array([200, 200, 200])
+            # initialise the speed
+            serial_command = 'STV ({}, {}, {})'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2])
+
         # move(x, y, z)
         if 'move' in serial_command:
             serial_command = serial_command.replace('move', 'MOV')
-        # set_speed(x,y,z)
+            
+        # set_speed(increase), set_speed(decrease)
         elif 'set_speed' in serial_command:
-            serial_command = serial_command.replace('set_speed', 'STV')
+            if 'increase' in serial_command:
+                self.fergboard_speed += 100
+            elif 'decrease' in serial_command:
+                self.fergboard_speed -= 100
+            # limit the speed  between 50 and 500
+            if self.fergboard_speed[0] > 500:
+                self.fergboard_speed = np.array([600,600,600])
+            elif self.fergboard_speed[0] < 50:
+                self.fergboard_speed = np.array([100,100,100])
+            self.fergboard_speed = self.fergboard_speed.astype('int')
+            serial_command = 'STV ({}, {}, {})'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2])
+
         # jog(x,y,z)
         elif 'jog' in serial_command:
             serial_command = serial_command.replace('jog', 'JOG') 
