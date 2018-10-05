@@ -27,7 +27,6 @@ class serial_controller_class():
             for name in port_names:
                 if name in port[1]:
                     serial_port = port[0]
-                    print('Serial port: '+ serial_port)
 
         self.ser = serial.Serial()
         self.ser.port = serial_port
@@ -35,6 +34,7 @@ class serial_controller_class():
         # TODO: check the meaning of the time out
         # self.ser.timeout = 0
         self.ser.open()
+        print('serial connection is ready for {}'.format(serial_port))
         
 
     def serial_write(self, serial_command, parser):
@@ -48,25 +48,8 @@ class serial_controller_class():
         else:
             self.serial_command = serial_command
 
-        print(self.serial_command)
+        print('serial_command to send: {}'.format(self.serial_command))
         self.ser.write('{} \n\r'.format(str(self.serial_command)).encode())
-
-        # incorporate a delay for jogging
-        if parser == 'fergboard' or parser == 'ferg' and 'JOG' in self.serial_command:
-            time.sleep(self.ferg_delay)
-
-
-        # debug: how to know the motor has finished moving?
-        # if parser == 'fergboard' or parser == 'ferg':
-        #     # wait for the movement to finish
-        #     while True:
-        #         print(self.serial_output)
-        #         if 'FIN' in self.serial_output:
-        #             # as this will no longer update, assign a new empty value 
-        #             self.serial_output = ''
-        #             break
-        #         time.sleep(0.5)
-
 
     def parsing_command_waterscope(self, serial_command):
         ''' parsing the command from interface for WaterScope water testing kit (Sammy code)'''
@@ -91,8 +74,11 @@ class serial_controller_class():
             self.fergboard_speed 
         except AttributeError:
             self.fergboard_speed = np.array([200, 200, 200])
-            # initialise the speed
+            # DEBUG: initialise the speed, seems to cause lag
+            print('set initial speed')
             serial_command = 'STV ({}, {}, {})'.format(self.fergboard_speed[0], self.fergboard_speed[1], self.fergboard_speed[2])
+            # initialise the serial_out so that motor can move 
+            self.serial_output = 'FIN'
 
         # move(x, y, z)
         if 'move' in serial_command:
@@ -115,8 +101,13 @@ class serial_controller_class():
         # jog(x,y,z)
         elif 'jog' in serial_command:
             serial_command = serial_command.replace('jog', 'JOG') 
-            # set a delay that is dependent on speed
-            self.ferg_delay = 50/self.fergboard_speed[0]
+            # NOTE: discard the serial command if the motor is not finished moving yet. - no 'FIN'
+            # print('current output2 is length:  {}'.format(len(self.serial_output)))
+            # print('current output2 is:  {}'.format(self.serial_output))
+            if not 'FIN'  in self.serial_output:
+                 serial_command = ''
+            # erase the historical serial_output
+            self.serial_output = ''
 
         serial_command = serial_command.replace('(',' 1 ').replace(')','').replace(",", " ")
         return serial_command
@@ -128,6 +119,7 @@ class serial_controller_class():
 
     def serial_read(self, options=['quiet']):
         self.stop_threading = False
+        # set a default tag
         while True:
             # incorporate a flag that stop the thread 
             if self.stop_threading is True:
@@ -174,6 +166,7 @@ class serial_controller_class():
 
 #############################################
 # code starts here
+# TODO: change this example 
 if __name__ == '__main__':
     serial_controller = serial_controller_class()
     serial_controller.serial_connect(port_names=['SERIAL'], baudrate=9600)
@@ -184,4 +177,3 @@ if __name__ == '__main__':
     while True:
         user_input = str(input())
         serial_controller.serial_write(user_input, 'fergboard')
-            

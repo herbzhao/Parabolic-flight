@@ -62,16 +62,21 @@ class arduino_controller_class():
 
                 elif self.fergboard_connect is False:
                     print(serial_command)
-
-
-            elif k in ['[', ']']:
+            
+            
+            elif k in ['[', ']',  't', 'y']:
                 if k == ']':
                     serial_command = 'set_speed(increase)'
-                    self.serial_controllers['ferg'].serial_write(serial_command, parser='ferg')
                 elif k == '[':
-                    serial_command = 'set_speed(increase)'
-                    self.serial_controllers['ferg'].serial_write('set_speed(decrease)', parser='ferg')
-                print(serial_command)
+                    serial_command = 'set_speed(decrease)'
+                # elif k == 't':
+                #     serial_command = 'move(1000,1000,1000)'
+                # elif k == 'y':
+                #     serial_command = 'move(-1000,-1000,-1000)'
+                    
+                self.serial_controllers['ferg'].serial_write(serial_command, parser='ferg')
+                if self.fergboard_connect is False:
+                    print(serial_command)
 
             # arduino connection for temperature control
             elif k in ['v', 'b']:

@@ -20,3 +20,9 @@
 2018/10/04 16:31:07.705 Info   ConfigDir=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\*.cfg (ConfigFileManager.cpp#43)
 2018/10/04 16:31:07.730 Info   Failed to find AppLink.dat (AppLink\AppLinkManager.cpp#32)
 2018/10/04 16:31:07.776 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)
+2018/10/04 16:56:30.929 Error  Access is denied.
+ (Utils\Utils.cpp#473)
+2018/10/04 17:28:16.834 Error  Access is denied.
+ (Utils\Utils.cpp#473)
+2018/10/04 17:32:29.627 Info   Received WM_QUERYENDSESSION.  Exiting... (Main.cpp#213)
+2018/10/04 17:32:29.681 Info   Application terminated (Utils\LogFile.cpp#20)
