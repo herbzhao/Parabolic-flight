@@ -1,0 +1,44 @@
+<html>
+
+<head>
+  <title>Video Streaming Demonstration</title>
+  <!-- WARNING: CSS should be in head -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+
+<body>
+
+  <div id="app">
+    {{ flask_message }}
+    <br>
+    <!-- square bracket for vue -->
+    [[message]]
+  </div>
+
+  <div id="user_input">
+      <p>[[message]]</p>
+      <button v-on:click="reverseMessage">Reverse Message</button>
+      <input v-model="message">
+    </div>
+
+    <div id="axios_examples">
+      <p>[[info]]</p>
+      <button v-on:click="toggle_interval">Toggle reading</button>
+      <div id="chart"></div>
+    </div>
+
+</body>
+
+<!-- WARNING: javascript should be outside the body -->
+<script type=text/javascript src="{{url_for('static', filename='javascript/mousetrap.min.js') }}"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/keyboard_capture.js') }}"></script>
+<!-- <script type=text/javascript src="{{url_for('static', filename='javascript/vue.js') }}"></script> -->
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/axios.min.js') }}"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/plotly.min.js') }}"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/main.js') }}"></script>
+
+
+</html>

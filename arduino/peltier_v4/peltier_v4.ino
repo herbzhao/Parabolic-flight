@@ -25,11 +25,11 @@ int r=255, g=255, b=255;
 // temp. for nominal resistance (almost always 25 C)
 #define temperature_norminal 25   
 // resistance at 25 degrees C
-#define thermistor_norminal_resistance 10000   
+#define thermistor_norminal_resistance 100000   
 // The beta coefficient of the thermistor (usually 3000-4000)
-#define B_coefficient 3435
+#define B_coefficient 3950
 // the value of the serial resistor
-#define reference_resistor 10000    
+#define reference_resistor 100000    
 // how many analogue_readings to take and average, more takes longer
 // but is more 'smooth'
 #define number_of_analogue_measurements 10
@@ -52,9 +52,12 @@ float temperature_sum;
 float temperature_ave;
 
 // final goal of temperature
-#define PID_default_starting_setpoint 23
-#define PID_default_final_setpoint 18
-#define phase_change_point 21
+// CHANGE: this is used to offset depending on the sample position, sensor position, etc.
+#define temp_offset -5
+#define PID_default_starting_setpoint 20 + temp_offset
+#define PID_default_final_setpoint 15 + temp_offset
+#define phase_change_point 21 + temp_offset
+
 float PID_final_setpoint;
 // starting the arduino with cooling or not?
 bool cooling = false;
@@ -179,6 +182,7 @@ float read_temperature(){
 }
 
 
+// automatically adjust the setpoint from the PID_setpoint to the PID_final_setpoint
 // move the temperature down slowly to ensure a smooth curve?
 void adjust_PID_setpoint() {
   // Serial.println("comparing the temp_ave and PID_setpoint");
@@ -209,6 +213,7 @@ void serial_condition(String serial_input){
   //Serial.println(serial_input);
   // trim is needed as there is blank space and line break
   serial_input.trim();
+  
   if (serial_input == "66" or serial_input == "led_on"){
     LED_colour(255,255,255);
   }
@@ -225,29 +230,62 @@ void serial_condition(String serial_input){
     PID_final_setpoint = PID_default_final_setpoint;
     cooling = true;
   }
-  else if (serial_input == "hold"){
-    Serial.println("hold at current temperature");
-    cooling = true;
-    PID_final_setpoint = temperature;
-    PID_setpoint = PID_final_setpoint;
-  }
   else if (serial_input == "prepare"){ 
     Serial.println("cool down the droplets right before the shape changing");
-    cooling = true;
     PID_final_setpoint = phase_change_point;
     // if it is already too cold, heat up to the point
     if (PID_setpoint < PID_final_setpoint){
       PID_setpoint = PID_final_setpoint;
     }
+    cooling = true;
   }
-  else if (serial_input == "continue"){
+  else if (serial_input == "hold"){
+    Serial.println("hold at current temperature");
+    PID_final_setpoint = temperature;
+    PID_setpoint = PID_final_setpoint;
+    cooling = true;
+  }
+
+  else if (serial_input == "continue" or serial_input == "start"){
     Serial.println("start the cooling procedure from the current temperature");
-    // dont change the current setpoint, but change the final_setpoint
+    // use the current temperature as the current setpoint, but change the final_setpoint
+    PID_setpoint = temperature;
     PID_final_setpoint = PID_default_final_setpoint;
     cooling = true;
   }
-}
 
+  // T_fin=19
+  else if (serial_input.substring(0,5) == "T_fin"){
+    Serial.print("changing the finishing temperature: ");
+    // use the current temperature as the current setpoint, but change the final_setpoint
+    float temperature_input = serial_input.substring(6).toFloat();
+    Serial.println(temperature_input);
+    //PID_setpoint = serial_input.substring(0,1);
+    PID_final_setpoint = temperature_input;
+    cooling = true;
+  }
+  // T_start=24
+  else if (serial_input.substring(0,7) == "T_start"){
+    Serial.print("changing the starting temperature: ");
+    float temperature_input = serial_input.substring(8).toFloat();
+    Serial.println(temperature_input);
+    // use the current temperature as the current setpoint, but change the final_setpoint
+    PID_setpoint = temperature_input;
+    cooling = true;
+  }
+  // T_prep=25
+  else if (serial_input.substring(0,6) == "T_prep"){
+    Serial.print("changing the prepare temperature: ");
+    float temperature_input = serial_input.substring(7).toFloat();
+    Serial.println(temperature_input);
+    PID_final_setpoint = temperature_input;
+    // if it is already too cold, heat up to the point
+    if (PID_setpoint < PID_final_setpoint){
+      PID_setpoint = PID_final_setpoint;
+    }
+    cooling = true;
+  }
+}
 
 void LED_colour(int r, int g, int b) {
   for (int i = 0; i < num_LEDs; i++) {
