@@ -8,7 +8,6 @@ api = Api(app)
 
 
 
-
 @app.route('/')
 def index():
     """Video streaming home page."""

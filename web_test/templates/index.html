@@ -7,7 +7,7 @@
 <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
 <meta charset="utf-8">
 <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/vuetify.min.css') }}">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
 
@@ -18,87 +18,205 @@
 <body>
 
 
-    <div id="app">
-        <v-app id="inspire">
-            <v-navigation-drawer fixed v-model="drawer" app>
-                <v-list dense>
-                    <v-list-tile @click="">
-                        <v-list-tile-action>
-                            <v-icon>home</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Home</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                    <v-list-tile @click="">
-                        <v-list-tile-action>
-                            <v-icon>contact_mail</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Contact</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
-            </v-navigation-drawer>
-            <v-toolbar color="indigo" dark fixed app>
-                <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                <v-toolbar-title>Application</v-toolbar-title>
-            </v-toolbar>
+    <v-app id="app">
 
 
-            <v-content>
-                <v-container fluid>
-                    <v-layout row wrap grid-list-xs text-xs-center justify-center>
+        <v-toolbar color="black" dark fixed app>
+            <v-toolbar-side-icon></v-toolbar-side-icon>
+            <v-toolbar-title>WaterScope web interface</v-toolbar-title>
+        </v-toolbar>
 
 
-                        <v-flex text-xs-center xs4>
-                            <v-tooltip left>
-                                <v-btn icon large target="_blank" slot="activator">
-                                    <v-icon large>code</v-icon>
+        <v-content>
+            <v-container fluid row wrap   text-xs-center grid-list-xs justify-center>
+                <!-- NOTE: another layout here -->
+                <!--TEST: alert  -->
+
+                <v-layout>
+                    <v-flex xs12>
+                        <v-alert :value="true" color="green" icon="directions_run" outline>
+                            Currently running:
+                            <label v-if="LED_switch != null">
+                                LED,
+                            </label>
+                            <label v-if="timelapse_switch !=null">
+                                Timelapse,
+                            </label>
+                            <label v-if="config_update_switch !=null">
+                                Config_updating,
+                            </label>
+                            <label v-if="recording_switch !=null">
+                                Recording,
+                            </label>
+                        </v-alert>
+                </v-layout>
+
+                <v-layout>
+                    <!-- NOTE: refresh button-->
+                    <v-flex xs9>
+                        <v-tooltip top>
+                            <!-- slot is needed for tooltip to work? -->
+                            <v-btn slot="activator" color="success" fab>
+                                <v-icon>refresh</v-icon>
+                            </v-btn>
+                            <span>Refresh the page (hkey: ESC)</span>
+                        </v-tooltip>
+
+                        <!-- NOTE: stop streaming button-->
+
+                        <v-tooltip top>
+                            <!-- slot is needed for tooltip to work? -->
+                            <v-btn slot="activator" color="error" fab>
+                                <v-icon>stop</v-icon>
+                            </v-btn>
+                            <span>Stop the streaming</span>
+                        </v-tooltip>
+
+                        <!-- NOTE: photo taking buttons-->
+
+                        <v-tooltip top>
+                            <!-- slot is needed for tooltip to work? -->
+                            <v-btn slot="activator" color="primary" fab>
+                                <v-icon>photo_camera</v-icon>
+                            </v-btn>
+                            <span>Take a low-res image (hkey: G) </span>
+                        </v-tooltip>
+
+                        <v-tooltip top>
+                            <!-- slot is needed for tooltip to work? -->
+                            <v-btn slot="activator" color="success" fab>
+                                <v-icon>camera_enhance</v-icon>
+                            </v-btn>
+                            <span>Take a raw image (hkey: H)</span>
+                        </v-tooltip>
+
+                        <!-- NOTE: config_setting -->
+                        <v-tooltip top>
+                            <v-btn-toggle v-model="config_update_switch" slot="activator">
+                                <v-btn flat color="black" value="config_updating" @click="toggle_config_update">
+                                    <span>Configs</span>
+                                    <v-icon>settings</v-icon>
                                 </v-btn>
-                                <span>Source</span>
-                            </v-tooltip>
-                        </v-flex>
-                        <v-flex text-xs-center xs2>
-                            <v-btn color="error">Error</v-btn>
-                            <v-tooltip left>
-                                <!-- WARNING: slot is needed for tooltip to work? -->
-                                <v-btn slot="activator" color="primary" dark>
-                                    Button
+                            </v-btn-toggle>
+                            <span>Update settings in yaml file</span>
+                        </v-tooltip>
+
+
+                        <!-- NOTE: recording -->
+                        <v-tooltip top>
+                            <v-btn-toggle v-model="recording_switch" slot="activator">
+                                <v-btn flat color="red" value="recording" @click="toggle_recording">
+                                    <span>Record</span>
+                                    <v-icon>settings</v-icon>
                                 </v-btn>
-                                <span>Tooltip</span>
-                            </v-tooltip>
-                        </v-flex>
-                        <v-flex xs4>
-                            <v-switch color="success" :label="`LED: ${led_switch.toString()}`" prepend-icon="wb_incandescent"
-                                v-model="led_switch">
-                                <v-icon>memory</v-icon>
-                            </v-switch>
-                        </v-flex>
+                            </v-btn-toggle>
+                            <span>Record a video</span>
+                        </v-tooltip>
 
-                    </v-layout>
-                    <v-layout row wrap grid-list-xs text-xs-center justify-center>
-                        <v-flex text-xs-center xs6 md4>
-                            <v-select :items="arduino_boards" v-model="chosen_arduino_board" menu-props="auto" label="Arduino board"
-                                hide-details prepend-icon="memory" append-outer-icon="memory" single-line></v-select>
-                        </v-flex>
+                        <!-- NOTE: LED -->
+                        <v-tooltip top>
+                            <v-btn-toggle v-model="LED_switch" slot="activator">
+                                <v-btn color="yellow" value="led_on" @click="toggle_LED">
+                                    <span>LED</span>
+                                    <v-icon>highlight</v-icon>
+                                </v-btn>
+                            </v-btn-toggle>
+                            <span>Toggle LED (hkey: on/off)</span>
+                        </v-tooltip>
 
-                        <v-flex text-xs-center xs6 md4 offset-md2>
-                            <v-form>
-                                <v-text-field v-model="serial_command" label="Serial command here"></v-text-field>
-                                <label>the user input is: [[ serial_command ]]</label>
-                            </v-form>
-                        </v-flex>
+                        <!-- NOTE: Stream selection -->
+                        <v-tooltip top>
+                            <v-btn-toggle v-model="stream_type" slot="activator">
+                                <v-btn color="error" value="PiCamera" @click.stop="toggle_stream">
+                                    <span>PiCamera</span>
+                                </v-btn>
+                            </v-btn-toggle>
+                            <span>Use PiCamera (Default)</span>
+                        </v-tooltip>
 
-                    </v-layout>
-                </v-container>
+                        <v-tooltip top>
+                            <v-btn-toggle v-model="stream_type" slot="activator">
+                                <v-btn color="warning" value="OpenCV" @click="toggle_stream">
+                                    <span>OpenCV</span>
+                                </v-btn>
+                            </v-btn-toggle>
+                            <span>Use OpenCV (Slow, incorporated other functions)</span>
+                        </v-tooltip>
+                    </v-flex>
 
-            </v-content>
-            <v-footer color="indigo" app inset>
-                <span class="white--text">&copy; 2017</span>
-            </v-footer>
-        </v-app>
-    </div>
+                    <v-flex xs3>
+                        <!-- NOTE: zoom slider -->
+                        <v-slider v-model="zoom" :max="2" :min="1" :step="0.1" append-icon="zoom_in" prepend-icon="zoom_out"
+                            thumb-label ticks='always'></v-slider>
+                    </v-flex>
+
+                </v-layout>
+
+
+                <!-- Warning: another layout here -->
+                <!-- NOTE: Arduino command -->
+                <v-layout>
+                    <v-flex xs3>
+                        <v-select :items="arduino_boards" v-model="chosen_arduino_board" menu-props="auto" label="Arduino board"
+                            hide-details prepend-icon="memory" single-line></v-select>
+                    </v-flex>
+                    <v-flex text-xs-center xs3>
+                        <v-form v-on:submit.prevent="send_serial_command">
+                            <v-text-field v-model="serial_command" prepend-icon="memory" label="Serial command here"></v-text-field>
+                        </v-form>
+                    </v-flex>
+
+
+                    <!-- NOTE: Timelapse input and toggle-->
+                    <v-flex text-xs-center xs2>
+                        <v-text-field v-model="timelapse_interval" label="time in seconds" prepend-icon="access_time"></v-text-field>
+                    </v-flex>
+
+                    <!-- NOTE: sharing the same v-model can ensure only one toggle at a time-->
+                    <v-flex xs4>
+                        <v-tooltip top>
+                            <v-btn-toggle v-model="timelapse_switch" slot="activator">
+                                <v-btn flat color="black" large value="timelapse" @click="toggle_timelapse">
+                                    <span>Timelapse</span>
+                                </v-btn>
+                            </v-btn-toggle>
+                            <span> Normal timelapse</span>
+                        </v-tooltip>
+
+                        <v-tooltip top>
+                            <v-btn-toggle v-model="timelapse_switch" slot="activator">
+                                <v-btn flat color="blue" large value="waterscope_timelapse" @click="toggle_timelapse">
+                                    <span>WaterScope timelapse</span>
+                                </v-btn>
+                            </v-btn-toggle>
+                            <span>WaterScope timelapse which turns on/off LED before/after image taking</span>
+                        </v-tooltip>
+
+                    </v-flex>
+
+
+
+
+                </v-layout>
+
+
+
+                <!-- Warning: another layout here -->
+                <!-- NOTE: Streaming window -->
+                <v-layout>
+                    <v-flex xs12>
+                        <v-img src="https://picsum.photos/510/300?random" aspect-ratio="1.7"></v-img>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+
+
+            <!-- Warning: footer -->
+        </v-content>
+        <v-footer color="black" app inset>
+            <span class="white--text">@Tianheng Zhao</span>
+        </v-footer>
+    </v-app>
 
 
 
@@ -110,7 +228,7 @@
 <script type=text/javascript src="{{url_for('static', filename='javascript/mousetrap.min.js') }}"></script>
 <script type=text/javascript src="{{url_for('static', filename='javascript/keyboard_capture.js') }}"></script>
 <script type=text/javascript src="{{url_for('static', filename='javascript/vue.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/vuetify.js') }}"></script>
 
 <!-- development version, includes helpful console warnings -->
 <!-- Add this after vue.js -->
