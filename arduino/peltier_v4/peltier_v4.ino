@@ -54,9 +54,9 @@ float temperature_ave;
 // final goal of temperature
 // CHANGE: this is used to offset depending on the sample position, sensor position, etc.
 #define temp_offset -5
-#define PID_default_starting_setpoint 20 + temp_offset
-#define PID_default_final_setpoint 15 + temp_offset
-#define phase_change_point 21 + temp_offset
+float PID_default_starting_setpoint = 20 + temp_offset;
+float PID_default_final_setpoint = 15 + temp_offset;
+float PID_prep_setpoint = 21 + temp_offset;
 
 float PID_final_setpoint;
 // starting the arduino with cooling or not?
@@ -67,6 +67,8 @@ bool cooling = false;
 // this is temperature fluctuation range that is acceptable before changing PID_setpoint
 // (smaller = longer time to reach stability = less chance of false positive )
 #define PID_fluctuation_range 0.05
+
+
 
 
 void setup(void) {
@@ -224,15 +226,22 @@ void serial_condition(String serial_input){
     Serial.println("stop cooling");
     cooling = false;
   }
-  else if (serial_input == "restart" or serial_input == "cool"){
-    Serial.println("start the cooling procedure from the beginning");
+  else if (serial_input == "restart"){
+    Serial.println("start the cooling procedure using the default values");
     PID_setpoint = PID_default_starting_setpoint;
     PID_final_setpoint = PID_default_final_setpoint;
     cooling = true;
   }
+  else if (serial_input == "continue" or serial_input == "start" or serial_input == "cool"){
+    Serial.println("start the cooling procedure using previously specified Temps or default");
+    // cool to PID_setpoint and then move slowly towards PID_final_setpoint
+    // the PID_final_setpoint can be a new value (if defined)
+    PID_final_setpoint = PID_default_final_setpoint;
+    cooling = true;
+  }
   else if (serial_input == "prepare"){ 
-    Serial.println("cool down the droplets right before the shape changing");
-    PID_final_setpoint = phase_change_point;
+    Serial.println("equilibriate to the droplets right before the shape changing");
+    PID_final_setpoint = PID_prep_setpoint;
     // if it is already too cold, heat up to the point
     if (PID_setpoint < PID_final_setpoint){
       PID_setpoint = PID_final_setpoint;
@@ -242,48 +251,41 @@ void serial_condition(String serial_input){
   else if (serial_input == "hold"){
     Serial.println("hold at current temperature");
     PID_final_setpoint = temperature;
-    PID_setpoint = PID_final_setpoint;
-    cooling = true;
-  }
-
-  else if (serial_input == "continue" or serial_input == "start"){
-    Serial.println("start the cooling procedure from the current temperature");
-    // use the current temperature as the current setpoint, but change the final_setpoint
     PID_setpoint = temperature;
-    PID_final_setpoint = PID_default_final_setpoint;
     cooling = true;
   }
 
-  // T_fin=19
-  else if (serial_input.substring(0,5) == "T_fin"){
-    Serial.print("changing the finishing temperature: ");
-    // use the current temperature as the current setpoint, but change the final_setpoint
-    float temperature_input = serial_input.substring(6).toFloat();
-    Serial.println(temperature_input);
-    //PID_setpoint = serial_input.substring(0,1);
-    PID_final_setpoint = temperature_input;
-    cooling = true;
-  }
-  // T_start=24
+
+// T_start=24
   else if (serial_input.substring(0,7) == "T_start"){
     Serial.print("changing the starting temperature: ");
     float temperature_input = serial_input.substring(8).toFloat();
     Serial.println(temperature_input);
-    // use the current temperature as the current setpoint, but change the final_setpoint
-    PID_setpoint = temperature_input;
-    cooling = true;
+    PID_default_starting_setpoint = temperature_input;
   }
+  // T_fin=19
+  else if (serial_input.substring(0,5) == "T_fin"){
+    Serial.print("changing the finishing temperature: ");
+    float temperature_input = serial_input.substring(6).toFloat();
+    Serial.println(temperature_input);
+    PID_default_final_setpoint = temperature_input;
+  }
+  
   // T_prep=25
   else if (serial_input.substring(0,6) == "T_prep"){
     Serial.print("changing the prepare temperature: ");
     float temperature_input = serial_input.substring(7).toFloat();
     Serial.println(temperature_input);
-    PID_final_setpoint = temperature_input;
-    // if it is already too cold, heat up to the point
-    if (PID_setpoint < PID_final_setpoint){
-      PID_setpoint = PID_final_setpoint;
-    }
-    cooling = true;
+    PID_prep_setpoint = temperature_input;
+  }
+  
+  // LED_RGB=255,255,255
+  else if (serial_input.substring(0,7) == "LED_RGB" or serial_input.substring(0,7) == "LED_rgb"){
+    serial_input = serial_input.substring(8);
+    r = (getValue(serial_input, ',', 0).toInt());
+    g = (getValue(serial_input, ',', 1).toInt());   // turn the LED on (HIGH is the voltage level
+    b = (getValue(serial_input, ',', 2).toInt());   // turn the LED on (HIGH is the voltage level
+    LED_colour(r,g,b);
   }
 }
 
@@ -295,3 +297,21 @@ void LED_colour(int r, int g, int b) {
     delay(5);
   }
 }
+
+// sammy's home made code
+String getValue(String data, char separator, int index)
+{
+    int found = 0;
+    int strIndex[] = { 0, -1 };
+    int maxIndex = data.length() - 1;
+
+    for (int i = 0; i <= maxIndex && found <= index; i++) {
+        if (data.charAt(i) == separator || i == maxIndex) {
+            found++;
+            strIndex[0] = strIndex[1] + 1;
+            strIndex[1] = (i == maxIndex) ? i+1 : i;
+        }
+    }
+    return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
+}
+

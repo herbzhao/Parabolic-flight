@@ -104,7 +104,7 @@ class arduino_controller_class():
 
 if __name__ == "__main__":
     # now threading0 runs regardless of user input
-    arduino_controller = arduino_controller_class(fergboard_connect=True, arduino_connect=False)
+    arduino_controller = arduino_controller_class(fergboard_connect=False, arduino_connect=True)
     threading_keyinput = threading.Thread(target=arduino_controller.key_input())
     threading_keyinput.daemon = True
     threading_keyinput.start()

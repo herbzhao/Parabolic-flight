@@ -1,0 +1,82 @@
+<html>
+
+<!-- <head>
+  <title>Video Streaming Demonstration</title>
+  <!-- WARNING: CSS should be in head -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+  <meta charset="utf-8">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+      
+  <!-- Add this to <head> -->
+
+</head> 
+
+<body>
+
+
+    <div id="app">
+        <v-app>
+          <v-content>
+            <v-container>Hello world
+                <v-form>
+                    <v-text-field
+                      v-model="serial_command"
+                      label="Name"
+                    ></v-text-field>
+                </v-form>
+
+
+
+            </v-container>
+          </v-content>
+        </v-app>
+      </div>
+
+
+
+
+
+  <div id='app'>
+  <input v-model="message" placeholder="edit me">
+<p>Message is: [[ message ]]</p>
+
+    {{ flask_message }}
+    <br>
+    <!-- square bracket for vue -->
+    [[message]]
+  </div>
+
+  <div id="app">
+      <p>[[message]]</p>
+      <button v-on:click="reverseMessage">Reverse Message</button>
+      <input v-model="message">
+    </div>
+
+    <div id="axios_examples">
+      <p>[[info]]</p>
+      <button v-on:click="toggle_interval">Toggle reading</button>
+      <div id="chart"></div>
+    </div>
+
+
+</body>
+
+<!-- WARNING: javascript should be outside the body -->
+<script type=text/javascript src="{{url_for('static', filename='javascript/mousetrap.min.js') }}"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/keyboard_capture.js') }}"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/vue.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+
+<!-- development version, includes helpful console warnings -->
+<!-- Add this after vue.js -->
+<script type=text/javascript src="{{url_for('static', filename='javascript/axios.min.js') }}"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/plotly.min.js') }}"></script>
+<script type=text/javascript src="{{url_for('static', filename='javascript/main.js') }}"></script>
+
+
+
+</html>

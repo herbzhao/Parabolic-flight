@@ -1,44 +1,123 @@
 <html>
 
-<head>
+<!-- <head>
   <title>Video Streaming Demonstration</title>
   <!-- WARNING: CSS should be in head -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+<meta charset="utf-8">
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+
+<!-- Add this to <head> -->
+
 </head>
 
 <body>
 
-  <div id="app">
-    {{ flask_message }}
-    <br>
-    <!-- square bracket for vue -->
-    [[message]]
-  </div>
 
-  <div id="user_input">
-      <p>[[message]]</p>
-      <button v-on:click="reverseMessage">Reverse Message</button>
-      <input v-model="message">
+    <div id="app">
+        <v-app id="inspire">
+            <v-navigation-drawer fixed v-model="drawer" app>
+                <v-list dense>
+                    <v-list-tile @click="">
+                        <v-list-tile-action>
+                            <v-icon>home</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Home</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile @click="">
+                        <v-list-tile-action>
+                            <v-icon>contact_mail</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Contact</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-navigation-drawer>
+            <v-toolbar color="indigo" dark fixed app>
+                <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+                <v-toolbar-title>Application</v-toolbar-title>
+            </v-toolbar>
+
+
+            <v-content>
+                <v-container fluid>
+                    <v-layout row wrap grid-list-xs text-xs-center justify-center>
+
+
+                        <v-flex text-xs-center xs4>
+                            <v-tooltip left>
+                                <v-btn icon large target="_blank" slot="activator">
+                                    <v-icon large>code</v-icon>
+                                </v-btn>
+                                <span>Source</span>
+                            </v-tooltip>
+                        </v-flex>
+                        <v-flex text-xs-center xs2>
+                            <v-btn color="error">Error</v-btn>
+                            <v-tooltip left>
+                                <!-- WARNING: slot is needed for tooltip to work? -->
+                                <v-btn slot="activator" color="primary" dark>
+                                    Button
+                                </v-btn>
+                                <span>Tooltip</span>
+                            </v-tooltip>
+                        </v-flex>
+                        <v-flex xs4>
+                            <v-switch color="success" :label="`LED: ${led_switch.toString()}`" prepend-icon="wb_incandescent"
+                                v-model="led_switch">
+                                <v-icon>memory</v-icon>
+                            </v-switch>
+                        </v-flex>
+
+                    </v-layout>
+                    <v-layout row wrap grid-list-xs text-xs-center justify-center>
+                        <v-flex text-xs-center xs6 md4>
+                            <v-select :items="arduino_boards" v-model="chosen_arduino_board" menu-props="auto" label="Arduino board"
+                                hide-details prepend-icon="memory" append-outer-icon="memory" single-line></v-select>
+                        </v-flex>
+
+                        <v-flex text-xs-center xs6 md4 offset-md2>
+                            <v-form>
+                                <v-text-field v-model="serial_command" label="Serial command here"></v-text-field>
+                                <label>the user input is: [[ serial_command ]]</label>
+                            </v-form>
+                        </v-flex>
+
+                    </v-layout>
+                </v-container>
+
+            </v-content>
+            <v-footer color="indigo" app inset>
+                <span class="white--text">&copy; 2017</span>
+            </v-footer>
+        </v-app>
     </div>
 
-    <div id="axios_examples">
-      <p>[[info]]</p>
-      <button v-on:click="toggle_interval">Toggle reading</button>
-      <div id="chart"></div>
-    </div>
+
+
+
 
 </body>
 
 <!-- WARNING: javascript should be outside the body -->
 <script type=text/javascript src="{{url_for('static', filename='javascript/mousetrap.min.js') }}"></script>
 <script type=text/javascript src="{{url_for('static', filename='javascript/keyboard_capture.js') }}"></script>
-<!-- <script type=text/javascript src="{{url_for('static', filename='javascript/vue.js') }}"></script> -->
+<script type=text/javascript src="{{url_for('static', filename='javascript/vue.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+
 <!-- development version, includes helpful console warnings -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- Add this after vue.js -->
 <script type=text/javascript src="{{url_for('static', filename='javascript/axios.min.js') }}"></script>
 <script type=text/javascript src="{{url_for('static', filename='javascript/plotly.min.js') }}"></script>
 <script type=text/javascript src="{{url_for('static', filename='javascript/main.js') }}"></script>
+
 
 
 </html>
