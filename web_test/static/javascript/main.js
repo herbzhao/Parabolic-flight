@@ -28,23 +28,24 @@ var app = new Vue({
       setTimeout(() => {
         if (this.LED_switch == null) {
           console.log('turn off')
-        } else if (this.LED_switch == "led_on") {
+        } else if (this.LED_switch == "true") {
           console.log('turn on')
         }
       }, 50);
     },
     toggle_recording: function () {
       setTimeout(() => {
+        console.log(this.recording_switch)
         if (this.recording_switch == null) {
           console.log('video recording off')
-        } else if (this.recording_switch == "recording") {
+        } else if (this.recording_switch == "true") {
           console.log('video recording on')
         }
       }, 10);
     },
     toggle_config_update: function () {
       setTimeout(() => {
-        if (this.config_update_switch == "config_updating") {
+        if (this.config_update_switch == "true") {
           console.log('updating config')
         } else if (this.config_update_switch == null) {
           console.log('stop updating config')

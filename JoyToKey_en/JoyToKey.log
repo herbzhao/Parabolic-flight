@@ -1,25 +1,22 @@
-2018/10/07 13:22:48.828 Info   Starting JoyToKey Ver5.9
-2018/10/07 13:22:48.828 Info   ExeFile=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\JoyToKey.exe
-2018/10/07 13:22:48.828 Info   ConfigDir=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\
-2018/10/07 13:22:48.828 Info   IniFile=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\JoyToKey.ini
-2018/10/07 13:22:48.828 Info   Windows Version = 6.2
-2018/10/07 13:22:48.833 Info   Loaded VistaAPI.dll (Utils\Utils.cpp#226)
-2018/10/07 13:22:48.852 Info   LicenseKey "" is not valid
-2018/10/07 13:22:49.502 Info   Loading XInput1_3.dll (Joystick.cpp#128)
-2018/10/07 13:22:49.504 Info   Initialized XInput (Joystick.cpp#146)
-2018/10/07 13:22:50.327 Info   Detected a DI joystick: {23E3A790-798A-11E8-8001-444553540000}, usb gamepad           , usb gamepad           
-2018/10/07 13:22:50.327 Info   Preferred index = -1
-2018/10/07 13:22:50.328 Info   numAxis = 2
-2018/10/07 13:22:50.328 Info   numPOVs = 0
-2018/10/07 13:22:50.328 Info   numButtons = 10
-2018/10/07 13:22:50.328 Info   EnumDeviceObject: Axis offset=0 type=102 name=Y Axis
-2018/10/07 13:22:50.328 Info   EnumDeviceObject: Axis offset=4 type=2 name=X Axis
-2018/10/07 13:22:50.330 Info   DetectJoysticks: Detected 1 DI joystick(s)
-2018/10/07 13:22:50.334 Info   Joystick #1: usb gamepad
-2018/10/07 13:22:50.334 Info   1 joysticks are detected (Joystick.cpp#168)
-2018/10/07 13:22:50.334 Info   ConfigDir=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\*.cfg (ConfigFileManager.cpp#43)
-2018/10/07 13:22:50.374 Info   Failed to find AppLink.dat (AppLink\AppLinkManager.cpp#32)
-2018/10/07 13:22:50.415 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)
-2018/10/07 13:23:27.907 Error  Access is denied.
- (Utils\Utils.cpp#473)
-07/10/2018 22:56:00 Info   Application terminated (Utils\LogFile.cpp#20)
+2018/10/10 19:20:47.384 Info   Starting JoyToKey Ver5.9
+2018/10/10 19:20:47.384 Info   ExeFile=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\JoyToKey.exe
+2018/10/10 19:20:47.384 Info   ConfigDir=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\
+2018/10/10 19:20:47.384 Info   IniFile=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\JoyToKey.ini
+2018/10/10 19:20:47.384 Info   Windows Version = 6.2
+2018/10/10 19:20:47.388 Info   Loaded VistaAPI.dll (Utils\Utils.cpp#226)
+2018/10/10 19:20:47.408 Info   LicenseKey "" is not valid
+2018/10/10 19:20:47.911 Info   Loading XInput1_3.dll (Joystick.cpp#128)
+2018/10/10 19:20:47.914 Info   Initialized XInput (Joystick.cpp#146)
+2018/10/10 19:20:48.473 Info   Detected a DI joystick: {23E3A790-798A-11E8-8001-444553540000}, usb gamepad           , usb gamepad           
+2018/10/10 19:20:48.473 Info   Preferred index = -1
+2018/10/10 19:20:48.474 Info   numAxis = 2
+2018/10/10 19:20:48.474 Info   numPOVs = 0
+2018/10/10 19:20:48.474 Info   numButtons = 10
+2018/10/10 19:20:48.474 Info   EnumDeviceObject: Axis offset=0 type=102 name=Y Axis
+2018/10/10 19:20:48.474 Info   EnumDeviceObject: Axis offset=4 type=2 name=X Axis
+2018/10/10 19:20:48.591 Info   DetectJoysticks: Detected 1 DI joystick(s)
+2018/10/10 19:20:48.597 Info   Joystick #1: usb gamepad
+2018/10/10 19:20:48.598 Info   1 joysticks are detected (Joystick.cpp#168)
+2018/10/10 19:20:48.598 Info   ConfigDir=C:\Users\herbz\Documents\GitHub\Parabolic flight\JoyToKey_en\*.cfg (ConfigFileManager.cpp#43)
+2018/10/10 19:20:48.637 Info   Failed to find AppLink.dat (AppLink\AppLinkManager.cpp#32)
+2018/10/10 19:20:48.697 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)

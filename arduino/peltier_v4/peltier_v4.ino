@@ -53,7 +53,7 @@ float temperature_ave;
 
 // final goal of temperature
 // CHANGE: this is used to offset depending on the sample position, sensor position, etc.
-#define temp_offset -5
+#define temp_offset 0
 float PID_default_starting_setpoint = 20 + temp_offset;
 float PID_default_final_setpoint = 15 + temp_offset;
 float PID_prep_setpoint = 21 + temp_offset;
@@ -63,11 +63,10 @@ float PID_final_setpoint;
 bool cooling = false;
 // this is the step that PID setpoint change each time 
 // (smaller = longer = less overshoot)
-#define PID_setpoint_change_step 0.2
+float PID_setpoint_change_step = 0.2;
 // this is temperature fluctuation range that is acceptable before changing PID_setpoint
 // (smaller = longer time to reach stability = less chance of false positive )
-#define PID_fluctuation_range 0.05
-
+float PID_fluctuation_range = 0.05;
 
 
 
@@ -120,8 +119,6 @@ void loop(void) {
   delay(delay_time*1000);
 }
 
-
-
 void measure_average_temp_and_adjust_PID_setpoint(){
   if ( index_i < number_of_temp_measurements){
     temperature_sum+= PID_input;
@@ -141,8 +138,6 @@ void measure_average_temp_and_adjust_PID_setpoint(){
     temperature_sum = 0;
   }
 }
-
-
 
 
 float read_temperature(){
@@ -223,7 +218,7 @@ void serial_condition(String serial_input){
     LED_colour(0,0,0);
   }
   else if (serial_input == "stop" or serial_input == "heat"){
-    Serial.println("stop cooling");
+    //Serial.println("stop cooling");
     cooling = false;
   }
   else if (serial_input == "restart"){
@@ -236,6 +231,7 @@ void serial_condition(String serial_input){
     Serial.println("start the cooling procedure using previously specified Temps or default");
     // cool to PID_setpoint and then move slowly towards PID_final_setpoint
     // the PID_final_setpoint can be a new value (if defined)
+    PID_setpoint = temperature;
     PID_final_setpoint = PID_default_final_setpoint;
     cooling = true;
   }
@@ -254,31 +250,48 @@ void serial_condition(String serial_input){
     PID_setpoint = temperature;
     cooling = true;
   }
-
-
 // T_start=24
-  else if (serial_input.substring(0,7) == "T_start"){
+  else if (serial_input.substring(0,6) == "Tstart"){
     Serial.print("changing the starting temperature: ");
-    float temperature_input = serial_input.substring(8).toFloat();
+    float temperature_input = serial_input.substring(7).toFloat();
     Serial.println(temperature_input);
     PID_default_starting_setpoint = temperature_input;
   }
   // T_fin=19
-  else if (serial_input.substring(0,5) == "T_fin"){
+  else if (serial_input.substring(0,4) == "Tfin"){
     Serial.print("changing the finishing temperature: ");
-    float temperature_input = serial_input.substring(6).toFloat();
+    float temperature_input = serial_input.substring(5).toFloat();
     Serial.println(temperature_input);
     PID_default_final_setpoint = temperature_input;
   }
   
   // T_prep=25
-  else if (serial_input.substring(0,6) == "T_prep"){
+  else if (serial_input.substring(0,5) == "Tprep"){
     Serial.print("changing the prepare temperature: ");
-    float temperature_input = serial_input.substring(7).toFloat();
+    float temperature_input = serial_input.substring(6).toFloat();
     Serial.println(temperature_input);
     PID_prep_setpoint = temperature_input;
   }
+  // PID_step=0.1
+  else if (serial_input.substring(0,8) == "PID_step"){
+    Serial.print("Changing the PID steps, this will affect slope: ");
+    Serial.println(serial_input.substring(9).toFloat());
+    PID_setpoint_change_step = serial_input.substring(9).toFloat();
+  }
   
+  // PID=1000,50,50
+  else if (serial_input.substring(0,3) == "PID"){
+    serial_input = serial_input.substring(4);
+    Kp = (getValue(serial_input, ',', 0).toInt());
+    Ki = (getValue(serial_input, ',', 1).toInt());   // turn the LED on (HIGH is the voltage level
+    Kd = (getValue(serial_input, ',', 2).toInt());   // turn the LED on (HIGH is the voltage level
+    Serial.print("New PID value: ");
+    Serial.print(Kp);
+    Serial.print(", ");
+    Serial.print(Ki);
+    Serial.print(", ");
+    Serial.println(Kd);
+  }
   // LED_RGB=255,255,255
   else if (serial_input.substring(0,7) == "LED_RGB" or serial_input.substring(0,7) == "LED_rgb"){
     serial_input = serial_input.substring(8);
