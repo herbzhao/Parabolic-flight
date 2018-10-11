@@ -34,20 +34,8 @@
 
                 <v-layout>
                     <v-flex xs12>
-                        <v-alert :value="true" color="green" icon="directions_run" outline>
-                            Currently running:
-                            <label v-if="LED_switch != null">
-                                LED,
-                            </label>
-                            <label v-if="timelapse_switch !=null">
-                                Timelapse,
-                            </label>
-                            <label v-if="config_update_switch !=null">
-                                Config_updating,
-                            </label>
-                            <label v-if="recording_switch !=null">
-                                Recording,
-                            </label>
+                        <v-alert :value="alert_switch" color="green" icon="directions_run" outline>
+                            Currently running:  [[alert_content]]
                         </v-alert>
                 </v-layout>
 

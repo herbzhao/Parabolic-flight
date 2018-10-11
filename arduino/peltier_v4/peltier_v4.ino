@@ -42,6 +42,7 @@ float average_analogue_reading;
 // global varialbes for the code
 String serial_input;
 float temperature;
+float starting_time;
 // gap between each measurment and adjustment in seconds
 #define delay_time 0.2
 
@@ -66,7 +67,7 @@ bool cooling = false;
 float PID_setpoint_change_step = 0.2;
 // this is temperature fluctuation range that is acceptable before changing PID_setpoint
 // (smaller = longer time to reach stability = less chance of false positive )
-float PID_fluctuation_range = 0.05;
+float PID_fluctuation_range = 0.1;
 
 
 
@@ -86,6 +87,9 @@ void setup(void) {
   //start the LED
   LEDs.begin();
   LED_colour(r,g,b);
+  
+  // measure a starting time
+  starting_time = float(millis())/float(1000);
 }
 
 
@@ -167,6 +171,8 @@ float read_temperature(){
   // also get a time variable
   float time;
   time = float(millis())/float(1000);
+  time = time - starting_time;
+  
   Serial.print(time);    //prints time since program started
   Serial.println(" s");
 
@@ -218,7 +224,7 @@ void serial_condition(String serial_input){
     LED_colour(0,0,0);
   }
   else if (serial_input == "stop" or serial_input == "heat"){
-    //Serial.println("stop cooling");
+    Serial.println("stop cooling");
     cooling = false;
   }
   else if (serial_input == "restart"){
@@ -299,6 +305,9 @@ void serial_condition(String serial_input){
     g = (getValue(serial_input, ',', 1).toInt());   // turn the LED on (HIGH is the voltage level
     b = (getValue(serial_input, ',', 2).toInt());   // turn the LED on (HIGH is the voltage level
     LED_colour(r,g,b);
+  }
+  else if (serial_input == "reset_time"){
+    starting_time = float(millis())/float(1000);
   }
 }
 

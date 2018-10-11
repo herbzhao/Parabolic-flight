@@ -14,14 +14,33 @@ var app = new Vue({
     message: 'test vue',
     stream_type: 'PiCamera',
     zoom: 1,
+    alert_switch: true,
   }),
 
-    // watch when data change 
-    watch: {
-      zoom: function(newzoom, oldzoom) {
-        this.change_zoom()
+  // watch when data change 
+  watch: {
+    zoom: function (newzoom, oldzoom) {
+      this.change_zoom()
+    }
+  },
+  computed: {
+    alert_content: function () {
+      alert_content = []
+      if (this.LED_switch != null) {
+        alert_content.push("LED")
       }
-    },
+      if (this.config_update_switch != null) {
+        alert_content.push('Updating config')
+      }
+      if (this.recording_switch != null) {
+        alert_content.push('Recording')
+      }
+      if (this.timelapse_switch != null){
+        alert_content.push('Timelapse')
+      }
+        return alert_content.join(', ')
+    }
+  },
 
   methods: {
     toggle_LED: function () {
@@ -58,8 +77,7 @@ var app = new Vue({
           console.log('Starting waterscope timelapse')
         } else if (this.timelapse_switch == 'timelapse') {
           console.log('Starting timelapse')
-        }
-        else if (this.timelapse_switch == null){
+        } else if (this.timelapse_switch == null) {
           console.log('stop timelapse')
         }
       }, 10);
@@ -70,7 +88,7 @@ var app = new Vue({
     toggle_stream: function () {
       // DEBUG: a tiny delay is required for the toggle buttons
       setTimeout(() => {
-        if (this.stream_type == null){
+        if (this.stream_type == null) {
           this.stream_type = 'PiCamera'
         }
         console.log(this.stream_type)
@@ -78,7 +96,7 @@ var app = new Vue({
       }, 10);
 
     },
-    change_zoom () {
+    change_zoom() {
       console.log(this.zoom)
     },
 
